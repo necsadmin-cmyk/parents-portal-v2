@@ -1,0 +1,128 @@
+
+const pages = {
+  home: {title:"Home", render: home},
+  policies: {title:"School Rules & Policies", render: policies},
+  uniform1: {title:"School Uniform", render: uniform1},
+  uniform2: {title:"School Uniform", render: uniform2},
+  uniform3: {title:"School Uniform", render: uniform3},
+  uniform4: {title:"Dress Down Days", render: uniform4},
+  attendance: {title:"Attendance", render: attendance},
+  environment: {title:"Environment", render: environment},
+  calendar: {title:"Calendar", render: calendar},
+  timetables: {title:"Time Tables", render: timetables},
+  termtables: {title:"Term Time Tables", render: termtables},
+  examtables: {title:"Exam Time Tables", render: examtables},
+  teachers: {title:"Form Teachers", render: teachers},
+  teacher11a: {title:"Form 1-1", render: ()=>teacherPage("Form 1-1")},
+  teacher11b: {title:"Form 1-1", render: ()=>teacherPage("Form 1-1 — More Info")},
+  teacher12: {title:"Form 1-2", render: ()=>teacherPage("Form 1-2")},
+  teacher13: {title:"Form 1-3", render: ()=>teacherPage("Form 1-3")},
+  teacher14: {title:"Form 1-4", render: ()=>teacherPage("Form 1-4")},
+  teacher15: {title:"Form 1-5", render: ()=>teacherPage("Form 1-5")},
+  subjects: {title:"Subjects", render: subjects},
+  resources: {title:"Resource Centre", render: resources},
+  parents: {title:"Parents Corner", render: parents},
+  gallery: {title:"Gallery", render: gallery},
+  contacts: {title:"Contacts", render: contacts}
+};
+
+const calendarData = [
+["September 2026",[["7th","Students report to school."],["8th","International Literacy Day"],["22nd","P.T.A Meeting"],["25th","Jeans and Sneakers Day"]]],
+["October 2026",[["1st","Teacher’s Appreciation Day"],["2nd","D.A.T Teachers’ Day (No School)"],["8th","Sports Day"],["9th","Mental Health Day (Wear Green)"],["9th","I have A Right Foundation girls brunch. Girls wear pink."],["12th","Flag Day"],["15th","Sports Day"],["16th","Afro Day"],["21st","Independence Athletics Finals (Day 1)"],["23rd","Independence Athletics Finals (End"],["26th","4-H Club Expo"],["29th","Youth Rally"],["30th","Creole Day"]]],
+["November 2026",[["2nd","Mid terms (Open Day)"],["3rd","Independence Day (Public Holiday)"],["4th","National Day of Community Service (Public Holiday)"],["12th","Sports Day"],["19th","Sports Day"],["20th","Universal Children's Day"],["24th","Exam Begins (See Time Table)"]]],
+["December 2026",[["1st","World AIDS Day"],["2nd","Special Education Day"],["4th","End of Term 1 Exams"],["8th","School X’mas Activity"],["9th","Report Card Distribution"],["11th","School Closes for X’mas Break. Reopens on January 4th 2027."]]],
+["January 2027",[["1st","New Year’s Day"],["4th","School Reopens"]]],
+["February 2027",[["4th","World Cancer Day"],["8th","Carnival Monday (Public Holiday)"],["9th","Carnival Tuesday (Public Holiday)"],["10th","Ash Wednesday"],["11th","International Day of Women and Girls in Science"],["14th","Valentine’s Day"]]],
+["March 2027",[["8th","International Women’s Day"],["9th","Commonwealth Day"],["12th","National Pi Day"],["19th","Education Trust Fund Contribution Day"],["24th","School CLoses for Easter Break"],["26th","Good Friday (Public Holiday) — World Mathematics Day"],["29th","Easter Monday (Public Holiday)"]]],
+["April 2027",[["2nd","World Autism Awareness Day"],["5th","School re-opens"],["7th","World Health Day"],["22nd","Earth Day"]]],
+["May 2027",[["3rd","Labour/May Day (Public Holiday)"],["17th","Pentecost Monday (Public Holiday)"]]],
+["June 2027",[["7th","World food & Safety Day"],["8th","World Ocean Day"]]],
+["July 2027",[["2nd","School Closes for Summer."]]]
+];
+
+const timetableLinks = [
+["FORM 1-1","https://drive.google.com/file/d/12NlA7L9VCIf4_kIF1CvHAa9nxe4Yt34/view?usp=drive_link"],
+["FORM 1-2","https://drive.google.com/file/d/1TlnrrT1GG7she87x8lgN4Rjq57PRHkON/view?usp=sharing"],
+["FORM 1-3","https://drive.google.com/file/d/1WO7vo1UYVX_8f9ykagFXQz3MWy8pKEjM/view?usp=sharing"],
+["FORM 1-4","https://drive.google.com/file/d/11NHeCUGP3EFljgDe2vLthhUBY5v6WBqe/view?usp=sharing"],
+["FORM 1-5","https://drive.google.com/file/d/1-UXPqyB3g6klhpnAWQMEUV1SRNdJa_AQ/view?usp=sharing"]
+];
+
+function go(page){
+  if(!pages[page]) page="home";
+  history.pushState({page},"",`#${page}`);
+  renderPage(page);
+}
+function renderPage(page){
+  const p=pages[page] || pages.home;
+  document.title=`${p.title} • Form 1 Classroom Portal`;
+  document.getElementById("app").innerHTML=p.render();
+  window.scrollTo({top:0,behavior:"instant"});
+  document.getElementById("app").focus({preventScroll:true});
+  document.querySelectorAll("[data-page]").forEach(el=>{
+    el.onclick=()=>{go(el.dataset.page); closeMenu();}
+  });
+}
+function closeMenu(){document.getElementById("nav").classList.remove("open");document.getElementById("menuBtn").setAttribute("aria-expanded","false")}
+function card(page,title,desc){return `<button class="card-btn" data-page="${page}"><strong>${title}</strong><span>${desc}</span></button>`}
+function back(page="home",label="← Back"){return `<div class="backrow"><button data-page="${page}">${label}</button></div>`}
+function shell(title,body){return `<div>${back()}<section class="hero"><h1>${title}</h1></section>${body}</div>`}
+
+function home(){
+ return `<section class="hero">
+   <h1>FORM 1</h1><p>Classroom Portal — a simple mobile-friendly place for parents and guardians to find school information.</p>
+ </section>
+ <div class="grid">
+   ${card("policies","Policies","School rules, uniform, attendance and environment")}
+   ${card("calendar","Calendar","School events from September 2026 to July 2027")}
+   ${card("timetables","Time Tables","Term and exam timetables")}
+   ${card("teachers","Form Teachers","Select your child’s form class")}
+   ${card("subjects","Subjects","Subjects information")}
+   ${card("resources","Resource Centre","Learning resources for students")}
+   ${card("parents","Parents Corner","Feedback, concerns, suggestions and complaints")}
+   ${card("gallery","Gallery","Access the class photo gallery")}
+   ${card("contacts","Contacts","Important school contacts")}
+ </div>
+ <section class="section notice"><strong>No login is required to navigate this portal.</strong><br>Internal buttons move between pages without opening new browser tabs.</section>`;
+}
+
+function policies(){
+ return shell("School Rules & Policies",`<div class="grid">
+   ${card("uniform1","School Uniform","General uniform requirements")}
+   ${card("attendance","Attendance","Attendance and punctuality guidance")}
+   ${card("environment","Environment","Keeping the school compound and classrooms clean")}
+ </div>`);
+}
+function uniform1(){return shell("School Uniform",`<div class="card"><h2>Boys</h2><ul class="list"><li>Long khaki pants (loosely fitted)</li><li>White shirt</li><li>Leather like belt</li><li>Plain black or brown dress shoes</li></ul><h2>Girls</h2><ul class="list"><li>Khaki Skirt</li><li>White shirt</li><li>Brown knee length socks</li><li>Black or Brown shoes</li></ul></div><div class="backrow" style="margin-top:14px"><button data-page="uniform2">Next →</button></div>`)}
+function uniform2(){return shell("School Uniform",`<div class="card"><h2>Sports Uniform</h2><ul class="list"><li>Black pants with school name and logo and Coloured House Shirt</li><li>A decent pair of sneakers</li><li>White socks</li></ul><h2>Hair</h2><ul class="list"><li>No hair extensions, artificial hair, beads, colors, tints, or elaborate styles for girls</li><li>Well-groomed and flat cuts for boy with no designs</li><li>Clips, bands and ribbons must be in the colour in which conforms to the school uniform.</li></ul></div><div class="backrow" style="margin-top:14px"><button data-page="uniform1">← Previous</button><button data-page="uniform3">Next →</button></div>`)}
+function uniform3(){return shell("School Uniform",`<div class="card"><h2>Jewelry</h2><ul class="list"><li>No earrings for boys</li><li>A simple pair of gold or silver earrings for girls</li><li>A simple wristwatch may be worn by all students.</li><li>No chains, rings, bracelets or hand bands.</li><li>No pins or badges except those given by the school may be worn.</li></ul></div><div class="backrow" style="margin-top:14px"><button data-page="uniform2">← Previous</button><button data-page="uniform4">Next →</button></div>`)}
+function uniform4(){return shell("Dress Down Days",`<div class="card"><p>Announcements will be given in reference to dress code for specific events. However on these days the following must be adhered to:</p><ul class="list"><li>No distressed jeans (Both Male and Female students)</li><li>No sleeveless, shorts, back-outs or midriff revealing outfits.</li></ul></div><div class="backrow" style="margin-top:14px"><button data-page="uniform3">← Previous</button></div>`)}
+function attendance(){return shell("Attendance",`<div class="card"><p>Regular punctual attendance is the key to success.</p><ul class="list"><li>Make attendance and punctuality a priority. Encourage your son/daughter to attend school everyday and be on time.</li><li>Contact the school by 8:30 a.m. on any day when he/she is unable to attend school.</li><li>Please telephone the school numbers: 285-3494 / 264-994</li><li>Inform us if your son/daughter is going to be absent or is in incomplete uniform. If he/she is ill for three or more days, a medical certificate must be presented.</li><li>Keep the school's records up to date. Please ensure that home/work/cell or emergency telephone numbers, and contact details are kept current and that we are informed of any changes.</li><li>Inform us promptly if there is any problem or matter of concern which may affect the attendance of your son/daughter.</li></ul></div>`)}
+function environment(){return shell("Environment",`<div class="card"><ul class="list"><li>Students should NOT litter on the school compound.</li><li>Students should keep their classroom clean at ALL times.</li></ul></div>`)}
+function calendar(){
+ return shell("School Calendar",`<div class="months">${calendarData.map(([m,events])=>`<article class="month"><h3>${m}</h3><ul>${events.map(e=>`<li><strong>${e[0]}</strong> ${e[1]}</li>`).join("")}</ul></article>`).join("")}</div>`);
+}
+function timetables(){return shell("Time Tables",`<div class="grid">${card("termtables","TERM","Click on the form class to access the term timetable.")}${card("examtables","EXAM","Access the exam timetable section.")}</div>`)}
+function termtables(){return shell("Term Time Tables",`<div class="card"><p>Click on the buttons to access the time table.</p><div class="grid">${timetableLinks.map(([n,u])=>`<a class="external" href="${u}" target="_self">${n} ↗</a>`).join("")}</div><p class="small">These timetable buttons point to the Google Drive files linked in the original portal. If a file is restricted, its Google Drive sharing setting will need to be changed to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
+function examtables(){return shell("Exam Time Tables",`<div class="card"><p>Click on the form class to access the exam time table.</p><p class="small">The uploaded portal does not contain the individual exam timetable links, so this section is left ready for those links to be added.</p></div>`)}
+function teachers(){return shell("Form Teachers",`<div class="card"><p>Select your child’s form class to learn more about their form teacher and how to get in touch.</p></div><div class="grid">${["1-1","1-2","1-3","1-4","1-5"].map(n=>card(n==="1-1"?"teacher11a":"teacher"+n.replace("-",""),"FORM "+n,"View form teacher information")).join("")}</div>`)}
+function teacherPage(name){
+ if(name==="Form 1-3") return shell(name,`<div class="card person"><img src="assets/teacher-form-1-3.jpg" alt="Form 1-3 teacher"><div><h2>Micha John Baptiste</h2><p><strong>Contact:</strong> +1.767.285.0530</p><p><strong>Subject taught:</strong> Mathematics & Information Technology</p><p><strong>More info:</strong> N/A</p></div></div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← Form Teachers</button></div>`);
+ return shell(name,`<div class="card"><p class="empty">The uploaded portal does not provide teacher details for this form on the supplied pages.</p></div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← Form Teachers</button></div>`);
+}
+function subjects(){return shell("Subjects",`<div class="card"><p class="empty">The supplied portal identifies a Subjects section, but does not include subject details in the uploaded content.</p></div>`)}
+function resources(){return shell("Resource Centre",`<div class="card"><h2>Explore resources</h2><p>Explore resources that can help your child review, practise, and strengthen their learning.</p></div>`)}
+function parents(){return shell("Parents Corner",`<div class="card"><h2>Your Voice Matters</h2><p>We value the partnership between home and school. This space allows parents and guardians to share feedback, raise concerns, submit complaints, and provide suggestions that can help us better support our students.</p><p>Please select the option that best describes what you would like to communicate. Where appropriate, you may request a follow-up from a member of staff.</p><a class="external" href="https://forms.gle/ULabuhgiQypxfJ3n6" target="_self">PARENT FEEDBACK ↗</a><div style="margin-top:15px"><span class="pill">RAISE A CONCERN</span><span class="pill">SHARE A SUGGESTION</span><span class="pill">REQUEST A FOLLOW-UP</span><span class="pill">SUBMIT A COMPLAINT</span></div></div>`)}
+function gallery(){return shell("Gallery",`<div class="card"><p>Click on the button below to access the photo gallery for each class.</p><a class="external" href="https://drive.google.com/drive/folders/1MvEDMFkPHQyNJMdPZuilXjA-zkyKZstV?usp=drive_link" target="_self">ACCESS GALLERY ↗</a><p class="small">If the Google Drive folder is restricted, change its sharing setting to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
+function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br>+1 (767) 285-3494<br>+1 (767) 266-4994</p><hr><h3>Form Teachers</h3><p>1-1 — Ms. Paul; Ms. Augustine</p><p>1-2 — Ms. Toussaint</p><p>1-3 — Ms. M. John Baptiste — +1 (767) 285-0530</p><p>1-4 — Ms. Russel</p><p>1-5 — Ms. Royer</p></div>`)}
+
+document.getElementById("menuBtn").onclick=()=>{
+ const n=document.getElementById("nav"), open=n.classList.toggle("open");
+ document.getElementById("menuBtn").setAttribute("aria-expanded",open?"true":"false");
+};
+window.addEventListener("popstate",()=>renderPage(location.hash.slice(1)||"home"));
+document.addEventListener("click",e=>{
+ const el=e.target.closest("[data-page]");
+ if(el){ e.preventDefault(); go(el.dataset.page); }
+});
+renderPage(location.hash.slice(1)||"home");
