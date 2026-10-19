@@ -1,13 +1,15 @@
 
 :root{
   --navy:#16324f;
+  --green:#2f7d32;
+  --green-light:#edf6ed;
   --blue:#246b9b;
   --light:#f4f7fa;
   --card:#ffffff;
   --ink:#17212b;
   --muted:#657482;
   --line:#dce4ea;
-  --accent:#f0b429;
+  --accent:#5c9b47;
   --danger:#9b2c2c;
   --radius:18px;
   --shadow:0 8px 28px rgba(22,50,79,.10);
@@ -119,4 +121,20 @@ h3{color:var(--navy);margin:0 0 9px}
   .card,.card-btn{padding:15px}
   .calendar-table{font-size:14px}
   .calendar-table th,.calendar-table td{padding:9px 8px}
+}
+
+
+/* North East Comprehensive identity */
+.brand{gap:12px;text-align:left}
+.brand-mark{width:46px;height:46px;border-radius:50%;border:2px solid #7fb56c;background:#fff;color:var(--green);font-size:12px;letter-spacing:-.5px}
+.brand-copy{display:flex;flex-direction:column;line-height:1.2;gap:4px}
+.brand-copy strong{font-size:clamp(14px,2vw,18px);letter-spacing:.1px}
+.brand-copy small{font-size:12px;font-weight:500;color:#dcebd8}
+.footer em{font-size:13px;color:var(--muted)}
+.footer strong{color:var(--navy)}
+a:focus-visible,button:focus-visible{outline:3px solid #8dc77c;outline-offset:3px}
+@media(max-width:520px){
+  .brand-copy strong{font-size:14px}
+  .brand-copy small{font-size:11px}
+  .brand-mark{width:40px;height:40px}
 }
