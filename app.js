@@ -69,23 +69,24 @@ function back(page="home",label="← Back"){return `<div class="backrow"><button
 function shell(title,body){return `<div>${back()}<section class="hero"><h1>${title}</h1></section>${body}</div>`}
 
 function home(){
- return `<section class="home-hero">
-   <div class="hero-copy"><span class="welcome-tag">WELCOME, PARENTS & GUARDIANS</span><h1>North East<br><span>Comprehensive</span></h1><p class="motto">Education is freedom. Embrace it!</p><p>Your Form 1 family hub for school information, important dates, timetables and teacher contacts.</p><button class="hero-cta" data-page="calendar">Explore school calendar <span aria-hidden="true">→</span></button></div>
-   <div class="hero-art" aria-hidden="true"><div class="art-sun"></div><div class="art-book"><span>LEARN</span><span>GROW</span></div><div class="art-leaf leaf-one"></div><div class="art-leaf leaf-two"></div><div class="art-orbit"></div><span class="art-caption">LEARN • GROW • ACHIEVE</span></div>
+ const quickLinks = [
+   ["policies","▤","School Policies","School rules and guidelines"],
+   ["calendar","▦","Calendar & Events","Important dates and events"],
+   ["timetables","◷","Time Tables","Class schedules and timetables"],
+   ["teachers","♧","Form Teachers","Meet your child’s form teacher"],
+   ["subjects","▣","Subjects","Subjects taught in each form"],
+   ["resources","▱","Resource Centre","Learning support and resources"],
+   ["parents","♧","Parents Corner","Support, advice and feedback"],
+   ["gallery","▧","Gallery","Photos and school moments"],
+   ["contacts","☎","Contact the School","Get in touch with us"]
+ ];
+ return `<section class="home-hero mockup-hero">
+   <div class="hero-copy"><span class="welcome-tag">WELCOME, PARENTS &amp; GUARDIANS</span><h1>Welcome to the<br><span>NEC Parent Portal</span></h1><p class="motto">Education is freedom. Embrace it!</p><p>Your Form 1 family hub for school information, important dates, timetables and teacher contacts.</p><button class="hero-cta" data-page="subjects">Explore Parent Resources <span aria-hidden="true">→</span></button></div>
+   <div class="hero-art mockup-hero-art" aria-hidden="true"><div class="mockup-sun"></div><div class="mockup-campus"><div class="campus-roof"></div><div class="campus-sign">NEC</div><div class="campus-windows"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="campus-door"></div></div><div class="campus-ground"></div><div class="mockup-leaf leaf-a"></div><div class="mockup-leaf leaf-b"></div><span class="art-caption">LEARN • GROW • ACHIEVE</span></div>
  </section>
- <section class="home-intro"><div><span class="eyebrow">YOUR SCHOOL, AT A GLANCE</span><h2>Everything your family needs, in one place.</h2></div><p>Quick access to the information that helps you stay connected and prepared throughout the school year.</p></section>
- <div class="grid home-grid">
-   ${card("policies","School Policies","Uniform, attendance and school expectations")}
-   ${card("calendar","School Calendar","Events from September 2026 to July 2027")}
-   ${card("timetables","Class Timetables","Term and exam timetable links")}
-   ${card("teachers","Meet the Teachers","Form teacher names and contact details")}
-   ${card("subjects","Subjects","Subject information coming soon")}
-   ${card("resources","Resource Centre","Learning support and resources")}
-   ${card("parents","Parents Corner","Feedback and parent communication")}
-   ${card("gallery","Photo Gallery","Visit the class photo gallery")}
-   ${card("contacts","Contact the School","Important school contact numbers")}
- </div>
- <section class="home-note"><span class="note-icon" aria-hidden="true">✓</span><div><strong>Easy access for every family</strong><p>No login is required to move between pages in this portal. External Google Drive files may have their own sharing settings.</p></div></section>`;
+ <section class="home-intro"><div><span class="eyebrow">YOUR SCHOOL, AT A GLANCE</span><h2>Everything you need, in one place</h2><div class="intro-underline"></div></div><p>Quick access to the information that helps you stay connected and prepared throughout the school year.</p></section>
+ <div class="grid home-grid mockup-home-grid">${quickLinks.map(([page,icon,title,desc])=>`<button class="card-btn mockup-link-card" data-page="${page}"><span class="mockup-icon" aria-hidden="true">${icon}</span><strong>${title}</strong><span>${desc}</span><span class="mockup-card-arrow" aria-hidden="true">↗</span></button>`).join("")}</div>
+ <section class="home-note mockup-note"><span class="note-icon" aria-hidden="true">⌁</span><div><strong>Stay connected with your child’s school journey.</strong><p>Check the calendar, read the latest updates and explore helpful resources.</p></div><span class="note-leaves" aria-hidden="true">❧</span></section>`;
 }
 
 
@@ -164,7 +165,7 @@ const coreSubjects = [
  "Business Studies",
  "Information Communication Technology",
  "Food and Nutrition",
- "HSLE"
+ "HFLE"
 ];
 function subjects(){
  const classSubjects = [...coreSubjects];
