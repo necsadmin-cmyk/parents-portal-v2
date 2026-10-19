@@ -453,3 +453,23 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
  .subject-row-three .subject-index{display:none}
  .subject-row-three .subject-teacher{font-size:11px;line-height:1.3}
 }
+
+/* Approved design asset integration */
+:root{--navy:#07365B;--green:#087E83;--green-light:#E7F4F1;--blue:#176A91;--light:#F7F8F5;--card:#fff;--ink:#20313B;--muted:#657680;--line:#DFE7E5;--accent:#E8B85C;--shadow:0 10px 30px rgba(7,54,91,.08)}
+.brand-crest{object-fit:contain;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;padding:0!important;width:52px;height:52px}
+.brand-crest:after{display:none}
+.page-hero{position:relative;overflow:hidden;min-height:190px;display:flex;align-items:center;padding:clamp(25px,5vw,44px);background:linear-gradient(90deg,rgba(4,39,66,.9),rgba(4,39,66,.22)),var(--page-banner) center/cover no-repeat;border-radius:16px;color:#fff}
+.page-hero h1{color:#fff;margin:2px 0 6px;font-size:clamp(30px,4.8vw,44px)}
+.page-hero-kicker{margin:0;color:#F3D38E;font-size:11px;font-weight:850;letter-spacing:2px}
+.page-hero-subtitle{margin:0;color:#E0F5F1;font-size:14px}
+.mockup-hero{position:relative;background:linear-gradient(90deg,rgba(4,39,66,.93),rgba(4,39,66,.25)),url("assets/banners/home-campus-banner.jpg") center/cover no-repeat;min-height:340px;align-items:center}
+.mockup-hero:before{display:none}
+.mockup-hero-art{min-height:180px;background:transparent}
+.mockup-home-grid .mockup-icon img{display:block;width:27px;height:27px;object-fit:contain}
+.mockup-home-grid .mockup-link-card{border-radius:12px}
+.contact-indent{display:inline-block;margin-left:4.8rem}
+.drive-gallery{width:100%;min-height:380px;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#F7F8F5}
+.drive-gallery iframe{display:block;width:100%;height:430px;border:0}
+.calendar-panel{font-family:inherit}
+.calendar-toolbar,.calendar-selectors,.calendar-grid,.selected-events{position:relative}
+@media(max-width:680px){.mockup-hero{min-height:0}.mockup-hero .hero-copy{max-width:100%}.page-hero{min-height:150px;border-radius:14px}.brand-crest{width:44px;height:44px}.drive-gallery iframe{height:340px}.contact-indent{margin-left:2.5rem}}
