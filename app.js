@@ -105,10 +105,18 @@ function calendar(){
 function timetables(){return shell("Time Tables",`<div class="grid">${card("termtables","TERM","Click on the form class to access the term timetable.")}${card("examtables","EXAM","Access the exam timetable section.")}</div>`)}
 function termtables(){return shell("Term Time Tables",`<div class="card"><p>Click on the buttons to access the time table.</p><div class="grid">${timetableLinks.map(([n,u])=>`<a class="external" href="${u}" target="_self">${n} ↗</a>`).join("")}</div><p class="small">These timetable buttons point to the Google Drive files linked in the original portal. If a file is restricted, its Google Drive sharing setting will need to be changed to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
 function examtables(){return shell("Exam Time Tables",`<div class="card"><p>Click on the form class to access the exam time table.</p><p class="small">The uploaded portal does not contain the individual exam timetable links, so this section is left ready for those links to be added.</p></div>`)}
-function teachers(){return shell("Form Teachers",`<div class="card"><p>Select your child’s form class to learn more about their form teacher and how to get in touch.</p></div><div class="grid">${["1-1","1-2","1-3","1-4","1-5"].map(n=>card(n==="1-1"?"teacher11a":"teacher"+n.replace("-",""),"FORM "+n,"View form teacher information")).join("")}</div>`)}
+function teachers(){return shell("Form Teachers",`<div class="card"><p>Meet the Form 1 teachers at North East Comprehensive. Select a class to view its form teacher information.</p></div><div class="grid">${["1-1","1-2","1-3","1-4","1-5"].map(n=>card(n==="1-1"?"teacher11a":"teacher"+n.replace("-",""),"FORM "+n,n==="1-1"?"Ms. Paul & Ms. Augustine":({"1-2":"Ms. Toussaint","1-3":"Ms. M. John Baptiste","1-4":"Ms. Russel","1-5":"Ms. Royer"}[n]))).join("")}</div>`)}
 function teacherPage(name){
- if(name==="Form 1-3") return shell(name,`<div class="card person"><img src="assets/teacher-form-1-3.jpg" alt="Form 1-3 teacher"><div><h2>Micha John Baptiste</h2><p><strong>Contact:</strong> +1.767.285.0530</p><p><strong>Subject taught:</strong> Mathematics & Information Technology</p><p><strong>More info:</strong> N/A</p></div></div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← Form Teachers</button></div>`);
- return shell(name,`<div class="card"><p class="empty">The uploaded portal does not provide teacher details for this form on the supplied pages.</p></div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← Form Teachers</button></div>`);
+ const form = name.replace(" — More Info","");
+ const teachersByForm = {
+  "Form 1-1":[{name:"Ms. Paul"},{name:"Ms. Augustine"}],
+  "Form 1-2":[{name:"Ms. Toussaint"}],
+  "Form 1-3":[{name:"Ms. M. John Baptiste",phone:"+1 (767) 285-0530"}],
+  "Form 1-4":[{name:"Ms. Russel"}],
+  "Form 1-5":[{name:"Ms. Royer"}]
+ };
+ const people = teachersByForm[form] || [];
+ return shell(form+" Form Teachers",`<div class="teacher-list">${people.map(t=>`<article class="card person"><img src="assets/teacher-placeholder.svg" alt="" aria-hidden="true"><div><p class="eyebrow">${form}</p><h2>${t.name}</h2>${t.phone?`<p><strong>Contact:</strong> <a href="tel:+17672850530">${t.phone}</a></p>`:""} </div></article>`).join("")}</div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← All Form Teachers</button></div>`);
 }
 function subjects(){return shell("Subjects",`<div class="card"><p class="empty">The supplied portal identifies a Subjects section, but does not include subject details in the uploaded content.</p></div>`)}
 function resources(){return shell("Resource Centre",`<div class="card"><h2>Explore resources</h2><p>Explore resources that can help your child review, practise, and strengthen their learning.</p></div>`)}
