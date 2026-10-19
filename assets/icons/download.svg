@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" role="img" aria-label="download icon">
+  <circle cx="36" cy="36" r="32" fill="#E8F6F4"/>
+  <g fill="none" stroke="#07365B" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M36 10v34M23 32l13 13 13-13"/><path d="M14 48v10h44V48"/></g>
+  <circle cx="56" cy="16" r="4" fill="#E8B85C"/>
+</svg>
