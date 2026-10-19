@@ -245,3 +245,92 @@ a:focus-visible,button:focus-visible{outline:3px solid #8dc77c;outline-offset:3p
  .teacher-details{min-width:0}
  .teacher-details h2{font-size:20px}
 }
+
+
+/* Refined NEC brand system — visual polish only; page content is unchanged */
+:root{
+  --navy:#07365B;
+  --green:#087E83;
+  --green-light:#E7F4F1;
+  --blue:#176A91;
+  --light:#F7F8F5;
+  --card:#FFFFFF;
+  --ink:#20313B;
+  --muted:#657680;
+  --line:#DFE7E5;
+  --accent:#E8B85C;
+  --danger:#9B2C2C;
+  --radius:20px;
+  --shadow:0 10px 30px rgba(7,54,91,.08);
+}
+body{background:var(--light);color:var(--ink)}
+.topbar{background:var(--navy);box-shadow:0 4px 18px rgba(7,54,91,.16)}
+.brand-mark{
+  position:relative;width:48px;height:48px;border:2px solid var(--accent);
+  border-radius:15px 15px 19px 19px;background:#fff;color:var(--navy);
+  font-size:13px;font-weight:950;letter-spacing:-.7px;
+  box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4px rgba(232,184,92,.55);
+}
+.brand-mark:after{content:"";position:absolute;left:9px;right:9px;bottom:7px;height:2px;background:var(--green);border-radius:2px}
+.brand-copy small{color:#D8ECEB}
+.nav{background:#fff;border-bottom:1px solid var(--line);box-shadow:0 4px 14px rgba(7,54,91,.035)}
+.nav button,.footer button{color:var(--navy);transition:background .16s,color .16s}
+.nav button:hover,.footer button:hover{background:#E7F4F1;color:var(--green)}
+.app{max-width:1180px;padding-top:26px}
+.hero{background:linear-gradient(125deg,var(--navy),var(--green));border-radius:24px}
+h2,h3{color:var(--navy)}
+.card,.card-btn,.month{border-color:#E1E9E6;box-shadow:0 8px 24px rgba(7,54,91,.055)}
+.card-btn strong{color:var(--navy)}
+.card-btn:hover{border-color:#B7D9D5;box-shadow:0 14px 30px rgba(7,54,91,.11)}
+.backrow button,.action,.external{background:var(--green);color:#fff}
+.backrow button:hover,.action:hover,.external:hover{background:#06696D}
+.backrow button.secondary,.action.secondary{background:#E7F1F3;color:var(--navy)}
+.notice{background:#FFF8E8;border-color:#E8B85C}
+.calendar-table th{background:#E7F4F1;color:var(--navy)}
+.pill{background:#E7F4F1;color:var(--navy)}
+.footer{background:#fff;border-top:1px solid var(--line);padding:24px max(18px,calc((100% - 1140px)/2));align-items:center}
+.footer strong{color:var(--navy)}
+.home-hero{
+  background:radial-gradient(circle at 83% 25%,rgba(232,184,92,.18),transparent 24%),
+    linear-gradient(125deg,#07365B 0%,#07566A 56%,#087E83 100%);
+  box-shadow:0 18px 42px rgba(7,54,91,.16)
+}
+.home-hero h1 span{color:#F3D38E}
+.welcome-tag{border-color:rgba(232,184,92,.65);background:rgba(255,255,255,.08)}
+.hero-cta{background:var(--accent);color:#173D4D;box-shadow:0 5px 0 rgba(0,0,0,.07)}
+.art-sun{background:linear-gradient(140deg,#FFE9B0,#E8B85C)}
+.art-book span{color:var(--navy);border-color:#E8B85C}
+.art-leaf{background:#8BD0BC}
+.leaf-two{background:#B6DCD0}
+.art-caption{color:#F8E8BE}
+.home-intro h2{color:var(--navy)}
+.home-grid .card-btn{border-color:#E1E9E6;background:linear-gradient(145deg,#fff 65%,#EEF7F4)}
+.home-grid .card-btn:before{background:#D9EFEB;box-shadow:inset 0 0 0 1px #B9DDD7}
+.home-grid .card-btn:nth-child(3n+2):before{background:#E0EDF5;box-shadow:inset 0 0 0 1px #C3DCEB}
+.home-grid .card-btn:nth-child(3n):before{background:#FFF0CF;box-shadow:inset 0 0 0 1px #E8D5A8}
+.home-grid .card-btn:after{color:var(--green)}
+.home-note{border-color:#D3E8E2;background:#EAF5F1}
+.note-icon{background:var(--green)}
+.home-note strong{color:var(--navy)}
+.home-note p{color:#526F70}
+.calendar-panel{border-color:#E1E9E6;box-shadow:0 10px 30px rgba(7,54,91,.07)}
+.cal-nav{border-color:#D4E8E4;background:#E7F4F1;color:var(--green);transition:transform .15s,background .15s}
+.cal-nav:hover{background:#D8ECE8;transform:translateY(-1px)}
+.calendar-grid{border-color:#E0E9E6}
+.cal-weekday{background:#E7F4F1;color:var(--navy);border-color:#D8E7E3}
+.cal-day{border-color:#E3EBE8}
+.cal-day:hover{background:#F1F8F6}
+.cal-day.is-selected{background:#E5F4F0;box-shadow:inset 0 0 0 2px var(--green)}
+.cal-event-dot{background:#D9EFEB;color:#075D60}
+.cal-more,.text-button{color:var(--green)}
+.calendar-legend span{background:var(--green)}
+.selected-events{background:#EFF7F4;border-color:#D5E9E2}
+.selected-events h3{color:var(--navy)}
+.teacher-avatar{background:#E7F4F1;border-color:#D1E7E1!important}
+.teacher-details a,.card a[href^="tel:"]{color:var(--green)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(max-width:720px){
+  .nav button{text-align:left;background:#F3F7F5}
+  .app{padding-top:16px}
+  .footer{padding:18px 14px}
+}
