@@ -166,7 +166,7 @@ const subjectsByClass = {
   ["Business Studies","Ms F Edwards"],
   ["Food and Nutrition","Ms J Russel"],
   ["ICT","Ms S Edwards"],
-  ["HFLE","Ms D Rolle"]
+  ["HFLE","Miss Roll"]
  ],
  "1-2": [
   ["Mathematics","Ms M John Baptiste"],
@@ -179,10 +179,10 @@ const subjectsByClass = {
   ["Physical Education","Ms J Phillip"],
   ["Business Studies","Ms F Edwards"],
   ["Food and Nutrition","Ms J Harney"],
-  ["ICT","Ms S Edwards"]
+  ["ICT","Ms S Edwards"],
+  ["HFLE","Miss M. Honoré"]
  ],
  "1-3": [
-  ["HFLE","Ms M Honore"],
   ["Mathematics","Ms J George"],
   ["English A","Ms T Matthew"],
   ["Integrated Science","Ms S Remy"],
@@ -191,10 +191,10 @@ const subjectsByClass = {
   ["Literature","Ms T Hyacinth"],
   ["Agriculture","Ms J Russel"],
   ["Physical Education","Ms M Dennis"],
-  ["HFLE","Ms I Pierre-Louise"],
   ["Business Studies","Ms F Edwards"],
   ["Food and Nutrition","Ms J Russel"],
-  ["ICT","Ms S Edwards"]
+  ["ICT","Ms S Edwards"],
+  ["HFLE","Miss I. Pierre-Louis"]
  ],
  "1-4": [
   ["Mathematics","Ms J George"],
@@ -203,7 +203,7 @@ const subjectsByClass = {
   ["Social Studies","Ms M Honore"],
   ["Agriculture","Ms G Paul"],
   ["Physical Education","Ms M Dennis"],
-  ["HFLE","Ms D Rolle"],
+  ["HFLE","Miss Roll"],
   ["Food and Nutrition","Ms G Gordon"],
   ["ICT","Ms S Edwards"],
   ["RC","Ms P Henry"],
@@ -216,7 +216,7 @@ const subjectsByClass = {
   ["Social Studies","Ms M Honore"],
   ["Agriculture","Ms J Russel"],
   ["Physical Education","Ms Dennis"],
-  ["HFLE","Ms D Rolle"],
+  ["HFLE","Miss Roll"],
   ["Food and Nutrition","Ms J Russel"],
   ["ICT","Ms S Edwards"],
   ["RC","Ms M Honore"],
@@ -240,7 +240,7 @@ function subjects(){
 function resources(){return shell("Resource Centre",`<div class="card"><h2>Explore resources</h2><p>Explore resources that can help your child review, practise, and strengthen their learning.</p></div>`)}
 function parents(){return shell("Parents Corner",`<div class="card"><h2>Your Voice Matters</h2><p>We value the partnership between home and school. This space allows parents and guardians to share feedback, raise concerns, submit complaints, and provide suggestions that can help us better support our students.</p><p>Please select the option that best describes what you would like to communicate. Where appropriate, you may request a follow-up from a member of staff.</p><a class="external" href="https://forms.gle/ULabuhgiQypxfJ3n6" target="_self">PARENT FEEDBACK ↗</a><div style="margin-top:15px"><span class="pill">RAISE A CONCERN</span><span class="pill">SHARE A SUGGESTION</span><span class="pill">REQUEST A FOLLOW-UP</span><span class="pill">SUBMIT A COMPLAINT</span></div></div>`)}
 function gallery(){return shell("Gallery",`<div class="card"><p>Click on the button below to access the photo gallery for each class.</p><a class="external" href="https://drive.google.com/drive/folders/1MvEDMFkPHQyNJMdPZuilXjA-zkyKZstV?usp=drive_link" target="_self">ACCESS GALLERY ↗</a><p class="small">If the Google Drive folder is restricted, change its sharing setting to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
-function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br><a href="tel:+17672853494">+1 (767) 285-3494</a><br><a href="tel:+17672664994">+1 (767) 266-4994</a></p><hr><h3>Form Teachers</h3><p>1-1: Ms. Paul; Ms. Augustine <span class="contact-tba">(TBA)</span></p><p>1-2: Mrs. Toussaint <span class="contact-tba">(TBA)</span></p><p>1-3: Ms. M. John Baptiste, <a href="tel:+17672850530">+1 (767) 285-0530</a></p><p>1-4: Ms. Russel <span class="contact-tba">(TBA)</span></p><p>1-5: Ms. Royer <span class="contact-tba">(TBA)</span></p></div>`)}
+function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br><a href="tel:+17672853494">+1 (767) 285-3494</a><br><a href="tel:+17672664994">+1 (767) 266-4994</a></p><hr><h3>Form Teachers</h3><p>1-1: Ms. Paul <span class="contact-tba">(TBA)</span><br>      Ms. Augustine</p><p>1-2: Mrs. Toussaint <span class="contact-tba">(TBA)</span></p><p>1-3: Ms. M. John Baptiste, <a href="tel:+17672850530">+1 (767) 285-0530</a></p><p>1-4: Ms. Russel <span class="contact-tba">(TBA)</span></p><p>1-5: Ms. Royer <span class="contact-tba">(TBA)</span></p></div>`)}
 
 
 document.getElementById("menuBtn").onclick=()=>{
