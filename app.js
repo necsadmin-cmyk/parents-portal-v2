@@ -153,32 +153,88 @@ function teacherPage(name){
 
 
 let selectedSubjectClass = "1-1";
-const coreSubjects = [
- "Mathematics",
- "English A",
- "Literature",
- "Integrated Science",
- "Social Studies",
- "French / Spanish",
- "Agriculture",
- "Physical Education",
- "Business Studies",
- "Information Communication Technology",
- "Food and Nutrition",
- "HFLE"
-];
+const subjectsByClass = {
+ "1-1": [
+  ["Mathematics","Ms. J James"],
+  ["English A","TBD"],
+  ["Integrated Science","Ms. S Remy"],
+  ["Social Studies","Ms. T Augustine"],
+  ["French/Spanish","Ms I Pierre-Louise"],
+  ["Literature","Ms T Hyacinth"],
+  ["Agriculture","Ms G Paul"],
+  ["Physical Education","Ms M Dennis"],
+  ["Business Studies","Ms F Edwards"],
+  ["Food and Nutrition","Ms J Russel"],
+  ["ICT","Ms S Edwards"],
+  ["HFLE","Ms D Rolle"]
+ ],
+ "1-2": [
+  ["Mathematics","Ms M John Baptiste"],
+  ["English A","Ms P Henry"],
+  ["Integrated Science","Ms S Remy"],
+  ["Social Studies","Ms D Nelson"],
+  ["French/Spanish","Ms S Davis"],
+  ["Literature","Ms T Hyacinth"],
+  ["Agriculture","Ms C Valmond"],
+  ["Physical Education","Ms J Phillip"],
+  ["Business Studies","Ms F Edwards"],
+  ["Food and Nutrition","Ms J Harney"],
+  ["ICT","Ms S Edwards"]
+ ],
+ "1-3": [
+  ["HFLE","Ms M Honore"],
+  ["Mathematics","Ms J George"],
+  ["English A","Ms T Matthew"],
+  ["Integrated Science","Ms S Remy"],
+  ["Social Studies","Ms T Augustine"],
+  ["French/Spanish","TBD"],
+  ["Literature","Ms T Hyacinth"],
+  ["Agriculture","Ms J Russel"],
+  ["Physical Education","Ms M Dennis"],
+  ["HFLE","Ms I Pierre-Louise"],
+  ["Business Studies","Ms F Edwards"],
+  ["Food and Nutrition","Ms J Russel"],
+  ["ICT","Ms S Edwards"]
+ ],
+ "1-4": [
+  ["Mathematics","Ms J George"],
+  ["English A","Ms P Henry"],
+  ["Integrated Science","Ms S Remy"],
+  ["Social Studies","Ms M Honore"],
+  ["Agriculture","Ms G Paul"],
+  ["Physical Education","Ms M Dennis"],
+  ["HFLE","Ms D Rolle"],
+  ["Food and Nutrition","Ms G Gordon"],
+  ["ICT","Ms S Edwards"],
+  ["RC","Ms P Henry"],
+  ["Mental Maths","TBD"]
+ ],
+ "1-5": [
+  ["Mathematics","Mrs Daniel & Ms Jones"],
+  ["English A","Ms Jones"],
+  ["Integrated Science","Ms C Thomas"],
+  ["Social Studies","Ms M Honore"],
+  ["Agriculture","Ms J Russel"],
+  ["Physical Education","Ms Dennis"],
+  ["HFLE","Ms D Rolle"],
+  ["Food and Nutrition","Ms J Russel"],
+  ["ICT","Ms S Edwards"],
+  ["RC","Ms M Honore"],
+  ["Mental Maths","Mr Sablon"]
+ ]
+};
 function subjects(){
- const classSubjects = [...coreSubjects];
- if(selectedSubjectClass==="1-4" || selectedSubjectClass==="1-5") classSubjects.push("RC","Mental Maths");
+ const rows = subjectsByClass[selectedSubjectClass] || [];
  return shell("Subjects",`<section class="subjects-panel">
-   <div class="subjects-intro"><span class="eyebrow">FORM 1 CURRICULUM</span><h2>Subjects by form class</h2><p>Select your child’s form class to see the subjects taught. Teacher names will be added once confirmed.</p></div>
+   <div class="subjects-intro"><span class="eyebrow">FORM 1 CURRICULUM</span><h2>Subjects and teachers</h2><p>Select your child’s form class to view each subject and its assigned teacher.</p></div>
    <div class="subject-class-tabs" role="tablist" aria-label="Choose form class">
     ${["1-1","1-2","1-3","1-4","1-5"].map(n=>`<button type="button" role="tab" aria-selected="${selectedSubjectClass===n}" class="subject-class-tab ${selectedSubjectClass===n?"active":""}" data-subject-class="${n}">Form ${n}</button>`).join("")}
    </div>
-   <div class="subject-table-wrap"><div class="subject-table-head"><span>SUBJECT</span><span>TEACHER</span></div>
-    <div class="subject-rows">${classSubjects.map((s,i)=>`<div class="subject-row"><span class="subject-name"><span class="subject-index">${String(i+1).padStart(2,"0")}</span>${s}</span><span class="subject-teacher">TBD</span></div>`).join("")}</div>
+   <div class="subject-table-wrap">
+    <div class="subject-table-head subject-table-head-three"><span>CLASS</span><span>SUBJECT</span><span>TEACHER</span></div>
+    <div class="subject-rows">${rows.map(([subject,teacher],i)=>`<div class="subject-row subject-row-three"><span class="subject-class-label">1-${selectedSubjectClass.split("-")[1]}</span><span class="subject-name"><span class="subject-index">${String(i+1).padStart(2,"0")}</span>${subject}</span><span class="subject-teacher ${teacher==="TBD"?"teacher-tbd":""}">${teacher}</span></div>`).join("")}</div>
    </div>
-   <p class="subjects-footnote"><span aria-hidden="true">✦</span> Teacher assignments will be updated when the information is supplied.</p>
+   <p class="subjects-footnote"><span aria-hidden="true">✦</span> Teacher assignments are shown as supplied by the school. Items marked TBD are awaiting confirmation.</p>
   </section>`)
 }
 function resources(){return shell("Resource Centre",`<div class="card"><h2>Explore resources</h2><p>Explore resources that can help your child review, practise, and strengthen their learning.</p></div>`)}
