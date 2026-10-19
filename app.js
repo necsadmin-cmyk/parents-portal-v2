@@ -41,7 +41,7 @@ const calendarData = [
 ];
 
 const timetableLinks = [
-["FORM 1-1","https://drive.google.com/file/d/12NlA7L9VCIf4_kIF1CvHAa9nxe4Yt34/view?usp=drive_link"],
+["FORM 1-1","https://drive.google.com/file/d/12NlA7L9VCIf4_kIF1CvHAa9nxe4Y4t34/view?usp=sharing"],
 ["FORM 1-2","https://drive.google.com/file/d/1TlnrrT1GG7she87x8lgN4Rjq57PRHkON/view?usp=sharing"],
 ["FORM 1-3","https://drive.google.com/file/d/1TlnrrT1GG7she87x8lgN4Rjq57PRHkON/view?usp=sharing"],
 ["FORM 1-4","https://drive.google.com/file/d/11NHeCUGP3EFljgDe2vLthhUBY5v6WBqe/view?usp=sharing"],
