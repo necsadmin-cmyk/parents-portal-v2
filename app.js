@@ -55,7 +55,7 @@ function go(page){
 }
 function renderPage(page){
   const p=pages[page] || pages.home;
-  document.title=`${p.title} • Form 1 Classroom Portal`;
+  document.title=`${p.title} | North East Comprehensive Parent Portal`;
   document.getElementById("app").innerHTML=p.render();
   window.scrollTo({top:0,behavior:"instant"});
   document.getElementById("app").focus({preventScroll:true});
