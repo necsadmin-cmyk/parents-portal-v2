@@ -55,7 +55,7 @@ function go(page){
 }
 function renderPage(page){
   const p=pages[page] || pages.home;
-  document.title=`${p.title} • Form 1 Classroom Portal`;
+  document.title=`${p.title} | North East Comprehensive Parent Portal`;
   document.getElementById("app").innerHTML=p.render();
   window.scrollTo({top:0,behavior:"instant"});
   document.getElementById("app").focus({preventScroll:true});
@@ -69,22 +69,25 @@ function back(page="home",label="← Back"){return `<div class="backrow"><button
 function shell(title,body){return `<div>${back()}<section class="hero"><h1>${title}</h1></section>${body}</div>`}
 
 function home(){
- return `<section class="hero">
-   <h1>FORM 1</h1><p>Classroom Portal — a simple mobile-friendly place for parents and guardians to find school information.</p>
+ return `<section class="home-hero">
+   <div class="hero-copy"><span class="welcome-tag">WELCOME, PARENTS & GUARDIANS</span><h1>North East<br><span>Comprehensive</span></h1><p class="motto">Education is freedom. Embrace it!</p><p>Your Form 1 family hub for school information, important dates, timetables and teacher contacts.</p><button class="hero-cta" data-page="calendar">Explore school calendar <span aria-hidden="true">→</span></button></div>
+   <div class="hero-art" aria-hidden="true"><div class="art-sun"></div><div class="art-book"><span>LEARN</span><span>GROW</span></div><div class="art-leaf leaf-one"></div><div class="art-leaf leaf-two"></div><div class="art-orbit"></div><span class="art-caption">LEARN • GROW • ACHIEVE</span></div>
  </section>
- <div class="grid">
-   ${card("policies","Policies","School rules, uniform, attendance and environment")}
-   ${card("calendar","Calendar","School events from September 2026 to July 2027")}
-   ${card("timetables","Time Tables","Term and exam timetables")}
-   ${card("teachers","Form Teachers","Select your child’s form class")}
-   ${card("subjects","Subjects","Subjects information")}
-   ${card("resources","Resource Centre","Learning resources for students")}
-   ${card("parents","Parents Corner","Feedback, concerns, suggestions and complaints")}
-   ${card("gallery","Gallery","Access the class photo gallery")}
-   ${card("contacts","Contacts","Important school contacts")}
+ <section class="home-intro"><div><span class="eyebrow">YOUR SCHOOL, AT A GLANCE</span><h2>Everything your family needs, in one place.</h2></div><p>Quick access to the information that helps you stay connected and prepared throughout the school year.</p></section>
+ <div class="grid home-grid">
+   ${card("policies","School Policies","Uniform, attendance and school expectations")}
+   ${card("calendar","School Calendar","Events from September 2026 to July 2027")}
+   ${card("timetables","Class Timetables","Term and exam timetable links")}
+   ${card("teachers","Meet the Teachers","Form teacher names and contact details")}
+   ${card("subjects","Subjects","Subject information coming soon")}
+   ${card("resources","Resource Centre","Learning support and resources")}
+   ${card("parents","Parents Corner","Feedback and parent communication")}
+   ${card("gallery","Photo Gallery","Visit the class photo gallery")}
+   ${card("contacts","Contact the School","Important school contact numbers")}
  </div>
- <section class="section notice"><strong>No login is required to navigate this portal.</strong><br>Internal buttons move between pages without opening new browser tabs.</section>`;
+ <section class="home-note"><span class="note-icon" aria-hidden="true">✓</span><div><strong>Easy access for every family</strong><p>No login is required to move between pages in this portal. External Google Drive files may have their own sharing settings.</p></div></section>`;
 }
+
 
 function policies(){
  return shell("School Rules & Policies",`<div class="grid">
@@ -99,30 +102,61 @@ function uniform3(){return shell("School Uniform",`<div class="card"><h2>Jewelry
 function uniform4(){return shell("Dress Down Days",`<div class="card"><p>Announcements will be given in reference to dress code for specific events. However on these days the following must be adhered to:</p><ul class="list"><li>No distressed jeans (Both Male and Female students)</li><li>No sleeveless, shorts, back-outs or midriff revealing outfits.</li></ul></div><div class="backrow" style="margin-top:14px"><button data-page="uniform3">← Previous</button></div>`)}
 function attendance(){return shell("Attendance",`<div class="card"><p>Regular punctual attendance is the key to success.</p><ul class="list"><li>Make attendance and punctuality a priority. Encourage your son/daughter to attend school everyday and be on time.</li><li>Contact the school by 8:30 a.m. on any day when he/she is unable to attend school.</li><li>Please telephone the school numbers: 285-3494 / 264-994</li><li>Inform us if your son/daughter is going to be absent or is in incomplete uniform. If he/she is ill for three or more days, a medical certificate must be presented.</li><li>Keep the school's records up to date. Please ensure that home/work/cell or emergency telephone numbers, and contact details are kept current and that we are informed of any changes.</li><li>Inform us promptly if there is any problem or matter of concern which may affect the attendance of your son/daughter.</li></ul></div>`)}
 function environment(){return shell("Environment",`<div class="card"><ul class="list"><li>Students should NOT litter on the school compound.</li><li>Students should keep their classroom clean at ALL times.</li></ul></div>`)}
-function calendar(){
- return shell("School Calendar",`<div class="months">${calendarData.map(([m,events])=>`<article class="month"><h3>${m}</h3><ul>${events.map(e=>`<li><strong>${e[0]}</strong> ${e[1]}</li>`).join("")}</ul></article>`).join("")}</div>`);
+let calendarView = new Date(2026, 9, 1);
+let selectedCalendarDay = null;
+function parseCalendarMonth(label){
+ const bits=label.split(" ");
+ return {month:new Date(bits[0]+" 1, "+bits[1]).getMonth(),year:Number(bits[1])};
 }
+function calendar(){
+ const {month,year}= {month:calendarView.getMonth(),year:calendarView.getFullYear()};
+ const monthName=calendarView.toLocaleString("en",{month:"long"});
+ const eventMonth=calendarData.find(([label])=>{const p=parseCalendarMonth(label);return p.month===month&&p.year===year;});
+ const events=(eventMonth?eventMonth[1]:[]).map((e,i)=>({day:parseInt(e[0],10),title:e[1],id:i}));
+ const firstDay=new Date(year,month,1).getDay();
+ const daysInMonth=new Date(year,month+1,0).getDate();
+ const cells=[];
+ for(let i=0;i<firstDay;i++) cells.push('<div class="cal-day cal-blank" aria-hidden="true"></div>');
+ for(let day=1;day<=daysInMonth;day++){
+   const todays=events.filter(e=>e.day===day);
+   cells.push(`<button class="cal-day ${todays.length?'has-events':''} ${selectedCalendarDay===day?'is-selected':''}" data-cal-day="${day}" aria-label="${monthName} ${day}, ${todays.length} events"><span class="cal-date">${day}</span>${todays.slice(0,2).map(e=>`<span class="cal-event-dot">${e.title}</span>`).join("")}${todays.length>2?`<span class="cal-more">+${todays.length-2} more</span>`:""}</button>`);
+ }
+ const selected=selectedCalendarDay===null?null:events.filter(e=>e.day===selectedCalendarDay);
+ return shell("School Calendar",`<section class="calendar-panel">
+   <div class="calendar-toolbar"><button class="cal-nav" data-cal-shift="-1" aria-label="Previous month">‹</button><div class="calendar-heading"><h2>${monthName} ${year}</h2><p>School year 2026–2027</p></div><button class="cal-nav" data-cal-shift="1" aria-label="Next month">›</button></div>
+   <div class="calendar-selectors"><label>Month <select id="calMonth">${Array.from({length:12},(_,i)=>`<option value="${i}" ${i===month?"selected":""}>${new Date(2026,i,1).toLocaleString("en",{month:"long"})}</option>`).join("")}</select></label><label>Year <select id="calYear">${[2026,2027].map(y=>`<option value="${y}" ${y===year?"selected":""}>${y}</option>`).join("")}</select></label></div>
+   <div class="calendar-grid"><div class="cal-weekday">Sun</div><div class="cal-weekday">Mon</div><div class="cal-weekday">Tue</div><div class="cal-weekday">Wed</div><div class="cal-weekday">Thu</div><div class="cal-weekday">Fri</div><div class="cal-weekday">Sat</div>${cells.join("")}</div>
+   <div class="calendar-legend"><span></span> School event <small>Tap a date to view its events.</small></div>
+   ${selected? `<section class="selected-events"><h3>${monthName} ${selectedCalendarDay}</h3>${selected.length?'<ul>'+selected.map(e=>`<li>${e.title}</li>`).join("")+'</ul>':'<p>No events listed for this date.</p>'}</section>`:'<p class="calendar-hint">Select a date with an event to see details here.</p>'}
+   <div class="calendar-footer"><button class="text-button" data-cal-today="1">Back to October 2026</button></div>
+ </section>`);
+}
+
+
 function timetables(){return shell("Time Tables",`<div class="grid">${card("termtables","TERM","Click on the form class to access the term timetable.")}${card("examtables","EXAM","Access the exam timetable section.")}</div>`)}
 function termtables(){return shell("Term Time Tables",`<div class="card"><p>Click on the buttons to access the time table.</p><div class="grid">${timetableLinks.map(([n,u])=>`<a class="external" href="${u}" target="_self">${n} ↗</a>`).join("")}</div><p class="small">These timetable buttons point to the Google Drive files linked in the original portal. If a file is restricted, its Google Drive sharing setting will need to be changed to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
 function examtables(){return shell("Exam Time Tables",`<div class="card"><p>Click on the form class to access the exam time table.</p><p class="small">The uploaded portal does not contain the individual exam timetable links, so this section is left ready for those links to be added.</p></div>`)}
-function teachers(){return shell("Form Teachers",`<div class="card"><p>Meet the Form 1 teachers at North East Comprehensive. Select a class to view its form teacher information.</p></div><div class="grid">${["1-1","1-2","1-3","1-4","1-5"].map(n=>card(n==="1-1"?"teacher11a":"teacher"+n.replace("-",""),"FORM "+n,n==="1-1"?"Ms. Paul & Ms. Augustine":({"1-2":"Ms. Toussaint","1-3":"Ms. M. John Baptiste","1-4":"Ms. Russel","1-5":"Ms. Royer"}[n]))).join("")}</div>`)}
+function teachers(){return shell("Form Teachers",`<div class="card"><p>Meet the Form 1 teachers at North East Comprehensive. Select a class to view teacher contact details and information.</p></div><div class="grid">${["1-1","1-2","1-3","1-4","1-5"].map(n=>card(n==="1-1"?"teacher11a":"teacher"+n.replace("-",""),"FORM "+n,n==="1-1"?"Ms. Paul & Ms. Augustine":({"1-2":"Mrs. Toussaint","1-3":"Ms. M. John Baptiste","1-4":"Ms. Russel","1-5":"Ms. Royer"}[n]))).join("")}</div>`)}
 function teacherPage(name){
- const form = name.replace(" — More Info","");
- const teachersByForm = {
+ const form=name.replace(" — More Info","");
+ const teachersByForm={
   "Form 1-1":[{name:"Ms. Paul"},{name:"Ms. Augustine"}],
-  "Form 1-2":[{name:"Ms. Toussaint"}],
-  "Form 1-3":[{name:"Ms. M. John Baptiste",phone:"+1 (767) 285-0530"}],
+  "Form 1-2":[{name:"Mrs. Toussaint"}],
+  "Form 1-3":[{name:"Ms. M. John Baptiste",phone:"+1 (767) 285-0530",preferred:"Text message (SMS), then call",subjects:"Mathematics and Information Technology",info:"N/A"}],
   "Form 1-4":[{name:"Ms. Russel"}],
   "Form 1-5":[{name:"Ms. Royer"}]
  };
- const people = teachersByForm[form] || [];
- return shell(form+" Form Teachers",`<div class="teacher-list">${people.map(t=>`<article class="card person"><img src="assets/teacher-placeholder.svg" alt="" aria-hidden="true"><div><p class="eyebrow">${form}</p><h2>${t.name}</h2>${t.phone?`<p><strong>Contact:</strong> <a href="tel:+17672850530">${t.phone}</a></p>`:""} </div></article>`).join("")}</div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← All Form Teachers</button></div>`);
+ const people=teachersByForm[form]||[];
+ return shell(form+" Form Teachers",`<div class="teacher-list">${people.map(t=>`<article class="card person"><img class="teacher-avatar" src="assets/teacher-placeholder.svg" alt="" aria-hidden="true"><div class="teacher-details"><p class="eyebrow">${form}</p><h2>${t.name}</h2><p><strong>Contact number:</strong> ${t.phone?`<a href="tel:+17672850530">${t.phone}</a>`:"N/A"}</p><p><strong>Preferred contact mode:</strong> ${t.preferred||"N/A"}</p><p><strong>Subjects taught:</strong> ${t.subjects||"N/A"}</p><p><strong>Additional information:</strong> ${t.info||"N/A"}</p></div></article>`).join("")}</div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← All Form Teachers</button></div>`);
 }
+
+
 function subjects(){return shell("Subjects",`<div class="card"><p class="empty">The supplied portal identifies a Subjects section, but does not include subject details in the uploaded content.</p></div>`)}
 function resources(){return shell("Resource Centre",`<div class="card"><h2>Explore resources</h2><p>Explore resources that can help your child review, practise, and strengthen their learning.</p></div>`)}
 function parents(){return shell("Parents Corner",`<div class="card"><h2>Your Voice Matters</h2><p>We value the partnership between home and school. This space allows parents and guardians to share feedback, raise concerns, submit complaints, and provide suggestions that can help us better support our students.</p><p>Please select the option that best describes what you would like to communicate. Where appropriate, you may request a follow-up from a member of staff.</p><a class="external" href="https://forms.gle/ULabuhgiQypxfJ3n6" target="_self">PARENT FEEDBACK ↗</a><div style="margin-top:15px"><span class="pill">RAISE A CONCERN</span><span class="pill">SHARE A SUGGESTION</span><span class="pill">REQUEST A FOLLOW-UP</span><span class="pill">SUBMIT A COMPLAINT</span></div></div>`)}
 function gallery(){return shell("Gallery",`<div class="card"><p>Click on the button below to access the photo gallery for each class.</p><a class="external" href="https://drive.google.com/drive/folders/1MvEDMFkPHQyNJMdPZuilXjA-zkyKZstV?usp=drive_link" target="_self">ACCESS GALLERY ↗</a><p class="small">If the Google Drive folder is restricted, change its sharing setting to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
-function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br>+1 (767) 285-3494<br>+1 (767) 266-4994</p><hr><h3>Form Teachers</h3><p>1-1 — Ms. Paul; Ms. Augustine</p><p>1-2 — Ms. Toussaint</p><p>1-3 — Ms. M. John Baptiste — +1 (767) 285-0530</p><p>1-4 — Ms. Russel</p><p>1-5 — Ms. Royer</p></div>`)}
+function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br><a href="tel:+17672853494">+1 (767) 285-3494</a><br><a href="tel:+17672664994">+1 (767) 266-4994</a></p><hr><h3>Form Teachers</h3><p>1-1: Ms. Paul; Ms. Augustine <span class="contact-tba">(TBA)</span></p><p>1-2: Mrs. Toussaint <span class="contact-tba">(TBA)</span></p><p>1-3: Ms. M. John Baptiste, <a href="tel:+17672850530">+1 (767) 285-0530</a></p><p>1-4: Ms. Russel <span class="contact-tba">(TBA)</span></p><p>1-5: Ms. Royer <span class="contact-tba">(TBA)</span></p></div>`)}
+
 
 document.getElementById("menuBtn").onclick=()=>{
  const n=document.getElementById("nav"), open=n.classList.toggle("open");
@@ -132,5 +166,18 @@ window.addEventListener("popstate",()=>renderPage(location.hash.slice(1)||"home"
 document.addEventListener("click",e=>{
  const el=e.target.closest("[data-page]");
  if(el){ e.preventDefault(); go(el.dataset.page); }
+});
+document.addEventListener("click",e=>{
+ const shift=e.target.closest("[data-cal-shift]");
+ if(shift){calendarView.setMonth(calendarView.getMonth()+Number(shift.dataset.calShift));selectedCalendarDay=null;renderPage("calendar");return;}
+ const day=e.target.closest("[data-cal-day]");
+ if(day){selectedCalendarDay=Number(day.dataset.calDay);renderPage("calendar");return;}
+ if(e.target.closest("[data-cal-today]")){calendarView=new Date(2026,9,1);selectedCalendarDay=null;renderPage("calendar");}
+});
+document.addEventListener("change",e=>{
+ if(e.target.id==="calMonth"||e.target.id==="calYear"){
+  const m=document.getElementById("calMonth"),y=document.getElementById("calYear");
+  calendarView=new Date(Number(y.value),Number(m.value),1);selectedCalendarDay=null;renderPage("calendar");
+ }
 });
 renderPage(location.hash.slice(1)||"home");
