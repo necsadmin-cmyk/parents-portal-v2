@@ -151,7 +151,35 @@ function teacherPage(name){
 }
 
 
-function subjects(){return shell("Subjects",`<div class="card"><p class="empty">The supplied portal identifies a Subjects section, but does not include subject details in the uploaded content.</p></div>`)}
+let selectedSubjectClass = "1-1";
+const coreSubjects = [
+ "Mathematics",
+ "English A",
+ "Literature",
+ "Integrated Science",
+ "Social Studies",
+ "French / Spanish",
+ "Agriculture",
+ "Physical Education",
+ "Business Studies",
+ "Information Communication Technology",
+ "Food and Nutrition",
+ "HSLE"
+];
+function subjects(){
+ const classSubjects = [...coreSubjects];
+ if(selectedSubjectClass==="1-4" || selectedSubjectClass==="1-5") classSubjects.push("RC","Mental Maths");
+ return shell("Subjects",`<section class="subjects-panel">
+   <div class="subjects-intro"><span class="eyebrow">FORM 1 CURRICULUM</span><h2>Subjects by form class</h2><p>Select your child’s form class to see the subjects taught. Teacher names will be added once confirmed.</p></div>
+   <div class="subject-class-tabs" role="tablist" aria-label="Choose form class">
+    ${["1-1","1-2","1-3","1-4","1-5"].map(n=>`<button type="button" role="tab" aria-selected="${selectedSubjectClass===n}" class="subject-class-tab ${selectedSubjectClass===n?"active":""}" data-subject-class="${n}">Form ${n}</button>`).join("")}
+   </div>
+   <div class="subject-table-wrap"><div class="subject-table-head"><span>SUBJECT</span><span>TEACHER</span></div>
+    <div class="subject-rows">${classSubjects.map((s,i)=>`<div class="subject-row"><span class="subject-name"><span class="subject-index">${String(i+1).padStart(2,"0")}</span>${s}</span><span class="subject-teacher">TBD</span></div>`).join("")}</div>
+   </div>
+   <p class="subjects-footnote"><span aria-hidden="true">✦</span> Teacher assignments will be updated when the information is supplied.</p>
+  </section>`)
+}
 function resources(){return shell("Resource Centre",`<div class="card"><h2>Explore resources</h2><p>Explore resources that can help your child review, practise, and strengthen their learning.</p></div>`)}
 function parents(){return shell("Parents Corner",`<div class="card"><h2>Your Voice Matters</h2><p>We value the partnership between home and school. This space allows parents and guardians to share feedback, raise concerns, submit complaints, and provide suggestions that can help us better support our students.</p><p>Please select the option that best describes what you would like to communicate. Where appropriate, you may request a follow-up from a member of staff.</p><a class="external" href="https://forms.gle/ULabuhgiQypxfJ3n6" target="_self">PARENT FEEDBACK ↗</a><div style="margin-top:15px"><span class="pill">RAISE A CONCERN</span><span class="pill">SHARE A SUGGESTION</span><span class="pill">REQUEST A FOLLOW-UP</span><span class="pill">SUBMIT A COMPLAINT</span></div></div>`)}
 function gallery(){return shell("Gallery",`<div class="card"><p>Click on the button below to access the photo gallery for each class.</p><a class="external" href="https://drive.google.com/drive/folders/1MvEDMFkPHQyNJMdPZuilXjA-zkyKZstV?usp=drive_link" target="_self">ACCESS GALLERY ↗</a><p class="small">If the Google Drive folder is restricted, change its sharing setting to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
