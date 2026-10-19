@@ -66,26 +66,30 @@ function renderPage(page){
 function closeMenu(){document.getElementById("nav").classList.remove("open");document.getElementById("menuBtn").setAttribute("aria-expanded","false")}
 function card(page,title,desc){return `<button class="card-btn" data-page="${page}"><strong>${title}</strong><span>${desc}</span></button>`}
 function back(page="home",label="← Back"){return `<div class="backrow"><button data-page="${page}">${label}</button></div>`}
-function shell(title,body){return `<div>${back()}<section class="hero"><h1>${title}</h1></section>${body}</div>`}
+function shell(title,body){
+ const bannerMap={"School Rules & Policies":"policies-library-banner.jpg","School Uniform":"policies-library-banner.jpg","Dress Down Days":"policies-library-banner.jpg","Attendance":"policies-library-banner.jpg","Environment":"school-garden-banner.jpg","School Calendar":"calendar-events-banner.jpg","Time Tables":"calendar-events-banner.jpg","Term Time Tables":"calendar-events-banner.jpg","Exam Time Tables":"calendar-events-banner.jpg","Form Teachers":"form-teachers-classroom-banner.jpg","Subjects":"resource-centre-books-banner.jpg","Resource Centre":"resource-centre-books-banner.jpg","Parents Corner":"parents-corner-banner.jpg","Gallery":"sports-banner.jpg","Contacts":"form-teachers-classroom-banner.jpg"};
+ const banner=bannerMap[title]||"home-campus-banner.jpg";
+ return `<div>${back()}<section class="hero page-hero" style="--page-banner:url('assets/banners/${banner}')"><div><p class="page-hero-kicker">NORTH EAST COMPREHENSIVE</p><h1>${title}</h1><p class="page-hero-subtitle">Education is freedom. Embrace it!</p></div></section>${body}</div>`
+}
 
 function home(){
  const quickLinks = [
-   ["policies","▤","School Policies","School rules and guidelines"],
-   ["calendar","▦","Calendar & Events","Important dates and events"],
-   ["timetables","◷","Time Tables","Class schedules and timetables"],
-   ["teachers","♧","Form Teachers","Meet your child’s form teacher"],
-   ["subjects","▣","Subjects","Subjects taught in each form"],
-   ["resources","▱","Resource Centre","Learning support and resources"],
-   ["parents","♧","Parents Corner","Support, advice and feedback"],
-   ["gallery","▧","Gallery","Photos and school moments"],
-   ["contacts","☎","Contact the School","Get in touch with us"]
+   ["policies","policies.svg","School Policies","School rules and guidelines"],
+   ["calendar","calendar.svg","Calendar & Events","Important dates and events"],
+   ["timetables","time-tables.svg","Time Tables","Class schedules and timetables"],
+   ["teachers","form-teachers.svg","Form Teachers","Meet your child’s form teacher"],
+   ["subjects","subjects.svg","Subjects","Subjects taught in each form"],
+   ["resources","resource-centre.svg","Resource Centre","Learning support and resources"],
+   ["parents","parents-corner.svg","Parents Corner","Support, advice and feedback"],
+   ["gallery","gallery.svg","Gallery","Photos and school moments"],
+   ["contacts","contact.svg","Contact the School","Get in touch with us"]
  ];
  return `<section class="home-hero mockup-hero">
    <div class="hero-copy"><span class="welcome-tag">WELCOME, PARENTS &amp; GUARDIANS</span><h1>Welcome to the<br><span>NEC Parent Portal</span></h1><p class="motto">Education is freedom. Embrace it!</p><p>Your Form 1 family hub for school information, important dates, timetables and teacher contacts.</p><button class="hero-cta" data-page="subjects">Explore Parent Resources <span aria-hidden="true">→</span></button></div>
-   <div class="hero-art mockup-hero-art" aria-hidden="true"><div class="mockup-sun"></div><div class="mockup-campus"><div class="campus-roof"></div><div class="campus-sign">NEC</div><div class="campus-windows"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="campus-door"></div></div><div class="campus-ground"></div><div class="mockup-leaf leaf-a"></div><div class="mockup-leaf leaf-b"></div><span class="art-caption">LEARN • GROW • ACHIEVE</span></div>
+   <div class="hero-art mockup-hero-art" role="img" aria-label="Campus banner image"></div>
  </section>
  <section class="home-intro"><div><span class="eyebrow">YOUR SCHOOL, AT A GLANCE</span><h2>Everything you need, in one place</h2><div class="intro-underline"></div></div><p>Quick access to the information that helps you stay connected and prepared throughout the school year.</p></section>
- <div class="grid home-grid mockup-home-grid">${quickLinks.map(([page,icon,title,desc])=>`<button class="card-btn mockup-link-card" data-page="${page}"><span class="mockup-icon" aria-hidden="true">${icon}</span><strong>${title}</strong><span>${desc}</span><span class="mockup-card-arrow" aria-hidden="true">↗</span></button>`).join("")}</div>
+ <div class="grid home-grid mockup-home-grid">${quickLinks.map(([page,icon,title,desc])=>`<button class="card-btn mockup-link-card" data-page="${page}"><span class="mockup-icon" aria-hidden="true"><img src="assets/icons/${icon}" alt=""></span><strong>${title}</strong><span>${desc}</span><span class="mockup-card-arrow" aria-hidden="true">↗</span></button>`).join("")}</div>
  <section class="home-note mockup-note"><span class="note-icon" aria-hidden="true">⌁</span><div><strong>Stay connected with your child’s school journey.</strong><p>Check the calendar, read the latest updates and explore helpful resources.</p></div><span class="note-leaves" aria-hidden="true">❧</span></section>`;
 }
 
@@ -137,7 +141,7 @@ function calendar(){
 function timetables(){return shell("Time Tables",`<div class="grid">${card("termtables","TERM","Click on the form class to access the term timetable.")}${card("examtables","EXAM","Access the exam timetable section.")}</div>`)}
 function termtables(){return shell("Term Time Tables",`<div class="card"><p>Click on the buttons to access the time table.</p><div class="grid">${timetableLinks.map(([n,u])=>`<a class="external" href="${u}" target="_self">${n} ↗</a>`).join("")}</div><p class="small">These timetable buttons point to the Google Drive files linked in the original portal. If a file is restricted, its Google Drive sharing setting will need to be changed to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
 function examtables(){return shell("Exam Time Tables",`<div class="card"><p>Click on the form class to access the exam time table.</p><p class="small">The uploaded portal does not contain the individual exam timetable links, so this section is left ready for those links to be added.</p></div>`)}
-function teachers(){return shell("Form Teachers",`<div class="card"><p>Meet the Form 1 teachers at North East Comprehensive. Select a class to view teacher contact details and information.</p></div><div class="grid">${["1-1","1-2","1-3","1-4","1-5"].map(n=>card(n==="1-1"?"teacher11a":"teacher"+n.replace("-",""),"FORM "+n,n==="1-1"?"Ms. Paul & Ms. Augustine":({"1-2":"Mrs. Toussaint","1-3":"Ms. M. John Baptiste","1-4":"Ms. Russel","1-5":"Ms. Royer"}[n]))).join("")}</div>`)}
+function teachers(){return shell("Form Teachers",`<div class="card"><p>Meet the Form 1 teachers at North East Comprehensive. Select a class to view teacher contact details and information.</p></div><div class="grid">${["1-1","1-2","1-3","1-4","1-5"].map(n=>card(n==="1-1"?"teacher11a":"teacher"+n.replace("-",""),"FORM "+n,n==="1-1"?"Ms. Paul (TBA) and Ms. Augustine (TBA)":({"1-2":"Mrs. Toussaint","1-3":"Ms. M. John Baptiste","1-4":"Ms. Russel","1-5":"Ms. Royer"}[n]))).join("")}</div>`)}
 function teacherPage(name){
  const form=name.replace(" — More Info","");
  const teachersByForm={
@@ -148,7 +152,7 @@ function teacherPage(name){
   "Form 1-5":[{name:"Ms. Royer"}]
  };
  const people=teachersByForm[form]||[];
- return shell(form+" Form Teachers",`<div class="teacher-list">${people.map(t=>`<article class="card person"><img class="teacher-avatar" src="assets/teacher-placeholder.svg" alt="" aria-hidden="true"><div class="teacher-details"><p class="eyebrow">${form}</p><h2>${t.name}</h2><p><strong>Contact number:</strong> ${t.phone?`<a href="tel:+17672850530">${t.phone}</a>`:"N/A"}</p><p><strong>Preferred contact mode:</strong> ${t.preferred||"N/A"}</p><p><strong>Subjects taught:</strong> ${t.subjects||"N/A"}</p><p><strong>Additional information:</strong> ${t.info||"N/A"}</p></div></article>`).join("")}</div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← All Form Teachers</button></div>`);
+ return shell(form+" Form Teachers",`<div class="teacher-list">${people.map(t=>`<article class="card person"><img class="teacher-avatar" src="assets/teacher-placeholder.svg" alt="" aria-hidden="true"><div class="teacher-details"><p class="eyebrow">${form}</p><h2>${t.name} ${t.status?`<span class="contact-tba">(${t.status})</span>`:""}</h2><p><strong>Contact number:</strong> ${t.phone?`<a href="tel:+17672850530">${t.phone}</a>`:"N/A"}</p><p><strong>Preferred contact mode:</strong> ${t.preferred||"N/A"}</p><p><strong>Subjects taught:</strong> ${t.subjects||"N/A"}</p><p><strong>Additional information:</strong> ${t.info||"N/A"}</p></div></article>`).join("")}</div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← All Form Teachers</button></div>`);
 }
 
 
@@ -166,7 +170,7 @@ const subjectsByClass = {
   ["Business Studies","Ms F Edwards"],
   ["Food and Nutrition","Ms J Russel"],
   ["ICT","Ms S Edwards"],
-  ["HFLE","Miss Roll"]
+  ["HFLE","Miss Rolle"]
  ],
  "1-2": [
   ["Mathematics","Ms M John Baptiste"],
@@ -203,7 +207,7 @@ const subjectsByClass = {
   ["Social Studies","Ms M Honore"],
   ["Agriculture","Ms G Paul"],
   ["Physical Education","Ms M Dennis"],
-  ["HFLE","Miss Roll"],
+  ["HFLE","Miss Rolle"],
   ["Food and Nutrition","Ms G Gordon"],
   ["ICT","Ms S Edwards"],
   ["RC","Ms P Henry"],
@@ -216,7 +220,7 @@ const subjectsByClass = {
   ["Social Studies","Ms M Honore"],
   ["Agriculture","Ms J Russel"],
   ["Physical Education","Ms Dennis"],
-  ["HFLE","Miss Roll"],
+  ["HFLE","Miss Rolle"],
   ["Food and Nutrition","Ms J Russel"],
   ["ICT","Ms S Edwards"],
   ["RC","Ms M Honore"],
@@ -239,8 +243,8 @@ function subjects(){
 }
 function resources(){return shell("Resource Centre",`<div class="card"><h2>Explore resources</h2><p>Explore resources that can help your child review, practise, and strengthen their learning.</p></div>`)}
 function parents(){return shell("Parents Corner",`<div class="card"><h2>Your Voice Matters</h2><p>We value the partnership between home and school. This space allows parents and guardians to share feedback, raise concerns, submit complaints, and provide suggestions that can help us better support our students.</p><p>Please select the option that best describes what you would like to communicate. Where appropriate, you may request a follow-up from a member of staff.</p><a class="external" href="https://forms.gle/ULabuhgiQypxfJ3n6" target="_self">PARENT FEEDBACK ↗</a><div style="margin-top:15px"><span class="pill">RAISE A CONCERN</span><span class="pill">SHARE A SUGGESTION</span><span class="pill">REQUEST A FOLLOW-UP</span><span class="pill">SUBMIT A COMPLAINT</span></div></div>`)}
-function gallery(){return shell("Gallery",`<div class="card"><p>Click on the button below to access the photo gallery for each class.</p><a class="external" href="https://drive.google.com/drive/folders/1MvEDMFkPHQyNJMdPZuilXjA-zkyKZstV?usp=drive_link" target="_self">ACCESS GALLERY ↗</a><p class="small">If the Google Drive folder is restricted, change its sharing setting to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
-function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br><a href="tel:+17672853494">+1 (767) 285-3494</a><br><a href="tel:+17672664994">+1 (767) 266-4994</a></p><hr><h3>Form Teachers</h3><p>1-1: Ms. Paul <span class="contact-tba">(TBA)</span><br>      Ms. Augustine</p><p>1-2: Mrs. Toussaint <span class="contact-tba">(TBA)</span></p><p>1-3: Ms. M. John Baptiste, <a href="tel:+17672850530">+1 (767) 285-0530</a></p><p>1-4: Ms. Russel <span class="contact-tba">(TBA)</span></p><p>1-5: Ms. Royer <span class="contact-tba">(TBA)</span></p></div>`)}
+function gallery(){return shell("Gallery",`<div class="card"><p>Browse the school gallery below if the folder is shared for public viewing.</p><div class="drive-gallery"><iframe title="North East Comprehensive school photo gallery" src="https://drive.google.com/embeddedfolderview?id=1MvEDMFkPHQyNJMdPZuilXjA-zkyKZstV#grid" loading="lazy" referrerpolicy="no-referrer"></iframe></div><p><a class="external" href="https://drive.google.com/drive/folders/1MvEDMFkPHQyNJMdPZuilXjA-zkyKZstV?usp=drive_link" target="_self">OPEN FULL GALLERY ↗</a></p><p class="small">The embedded gallery only appears when the folder and images are shared for viewing. If it is blank or requests sign-in, use the link above or adjust the Google Drive sharing permissions.</p></div>`)}
+function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br><a href="tel:+17672853494">+1 (767) 285-3494</a><br><a href="tel:+17672664994">+1 (767) 266-4994</a></p><hr><h3>Year Head</h3><p>Ms J Russel</p><hr><h3>Form Teachers</h3><p>1-1: Ms. Paul <span class="contact-tba">(TBA)</span><br><span class="contact-indent">Ms. Augustine <span class="contact-tba">(TBA)</span></span></p><p>1-2: Mrs. Toussaint <span class="contact-tba">(TBA)</span></p><p>1-3: Ms. M. John Baptiste, <a href="tel:+17672850530">+1 (767) 285-0530</a></p><p>1-4: Ms. Russel <span class="contact-tba">(TBA)</span></p><p>1-5: Ms. Royer <span class="contact-tba">(TBA)</span></p></div>`)}
 
 
 document.getElementById("menuBtn").onclick=()=>{
