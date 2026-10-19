@@ -153,38 +153,94 @@ function teacherPage(name){
 
 
 let selectedSubjectClass = "1-1";
-const coreSubjects = [
- "Mathematics",
- "English A",
- "Literature",
- "Integrated Science",
- "Social Studies",
- "French / Spanish",
- "Agriculture",
- "Physical Education",
- "Business Studies",
- "Information Communication Technology",
- "Food and Nutrition",
- "HFLE"
-];
+const subjectsByClass = {
+ "1-1": [
+  ["Mathematics","Ms. J James"],
+  ["English A","TBD"],
+  ["Integrated Science","Ms. S Remy"],
+  ["Social Studies","Ms. T Augustine"],
+  ["French/Spanish","Ms I Pierre-Louise"],
+  ["Literature","Ms T Hyacinth"],
+  ["Agriculture","Ms G Paul"],
+  ["Physical Education","Ms M Dennis"],
+  ["Business Studies","Ms F Edwards"],
+  ["Food and Nutrition","Ms J Russel"],
+  ["ICT","Ms S Edwards"],
+  ["HFLE","Miss Roll"]
+ ],
+ "1-2": [
+  ["Mathematics","Ms M John Baptiste"],
+  ["English A","Ms P Henry"],
+  ["Integrated Science","Ms S Remy"],
+  ["Social Studies","Ms D Nelson"],
+  ["French/Spanish","Ms S Davis"],
+  ["Literature","Ms T Hyacinth"],
+  ["Agriculture","Ms C Valmond"],
+  ["Physical Education","Ms J Phillip"],
+  ["Business Studies","Ms F Edwards"],
+  ["Food and Nutrition","Ms J Harney"],
+  ["ICT","Ms S Edwards"],
+  ["HFLE","Miss M. Honoré"]
+ ],
+ "1-3": [
+  ["Mathematics","Ms J George"],
+  ["English A","Ms T Matthew"],
+  ["Integrated Science","Ms S Remy"],
+  ["Social Studies","Ms T Augustine"],
+  ["French/Spanish","TBD"],
+  ["Literature","Ms T Hyacinth"],
+  ["Agriculture","Ms J Russel"],
+  ["Physical Education","Ms M Dennis"],
+  ["Business Studies","Ms F Edwards"],
+  ["Food and Nutrition","Ms J Russel"],
+  ["ICT","Ms S Edwards"],
+  ["HFLE","Miss I. Pierre-Louis"]
+ ],
+ "1-4": [
+  ["Mathematics","Ms J George"],
+  ["English A","Ms P Henry"],
+  ["Integrated Science","Ms S Remy"],
+  ["Social Studies","Ms M Honore"],
+  ["Agriculture","Ms G Paul"],
+  ["Physical Education","Ms M Dennis"],
+  ["HFLE","Miss Roll"],
+  ["Food and Nutrition","Ms G Gordon"],
+  ["ICT","Ms S Edwards"],
+  ["RC","Ms P Henry"],
+  ["Mental Maths","TBD"]
+ ],
+ "1-5": [
+  ["Mathematics","Mrs Daniel & Ms Jones"],
+  ["English A","Ms Jones"],
+  ["Integrated Science","Ms C Thomas"],
+  ["Social Studies","Ms M Honore"],
+  ["Agriculture","Ms J Russel"],
+  ["Physical Education","Ms Dennis"],
+  ["HFLE","Miss Roll"],
+  ["Food and Nutrition","Ms J Russel"],
+  ["ICT","Ms S Edwards"],
+  ["RC","Ms M Honore"],
+  ["Mental Maths","Mr Sablon"]
+ ]
+};
 function subjects(){
- const classSubjects = [...coreSubjects];
- if(selectedSubjectClass==="1-4" || selectedSubjectClass==="1-5") classSubjects.push("RC","Mental Maths");
+ const rows = subjectsByClass[selectedSubjectClass] || [];
  return shell("Subjects",`<section class="subjects-panel">
-   <div class="subjects-intro"><span class="eyebrow">FORM 1 CURRICULUM</span><h2>Subjects by form class</h2><p>Select your child’s form class to see the subjects taught. Teacher names will be added once confirmed.</p></div>
+   <div class="subjects-intro"><span class="eyebrow">FORM 1 CURRICULUM</span><h2>Subjects and teachers</h2><p>Select your child’s form class to view each subject and its assigned teacher.</p></div>
    <div class="subject-class-tabs" role="tablist" aria-label="Choose form class">
     ${["1-1","1-2","1-3","1-4","1-5"].map(n=>`<button type="button" role="tab" aria-selected="${selectedSubjectClass===n}" class="subject-class-tab ${selectedSubjectClass===n?"active":""}" data-subject-class="${n}">Form ${n}</button>`).join("")}
    </div>
-   <div class="subject-table-wrap"><div class="subject-table-head"><span>SUBJECT</span><span>TEACHER</span></div>
-    <div class="subject-rows">${classSubjects.map((s,i)=>`<div class="subject-row"><span class="subject-name"><span class="subject-index">${String(i+1).padStart(2,"0")}</span>${s}</span><span class="subject-teacher">TBD</span></div>`).join("")}</div>
+   <div class="subject-table-wrap">
+    <div class="subject-table-head subject-table-head-three"><span>CLASS</span><span>SUBJECT</span><span>TEACHER</span></div>
+    <div class="subject-rows">${rows.map(([subject,teacher],i)=>`<div class="subject-row subject-row-three"><span class="subject-class-label">1-${selectedSubjectClass.split("-")[1]}</span><span class="subject-name"><span class="subject-index">${String(i+1).padStart(2,"0")}</span>${subject}</span><span class="subject-teacher ${teacher==="TBD"?"teacher-tbd":""}">${teacher}</span></div>`).join("")}</div>
    </div>
-   <p class="subjects-footnote"><span aria-hidden="true">✦</span> Teacher assignments will be updated when the information is supplied.</p>
+   <p class="subjects-footnote"><span aria-hidden="true">✦</span> Teacher assignments are shown as supplied by the school. Items marked TBD are awaiting confirmation.</p>
   </section>`)
 }
 function resources(){return shell("Resource Centre",`<div class="card"><h2>Explore resources</h2><p>Explore resources that can help your child review, practise, and strengthen their learning.</p></div>`)}
 function parents(){return shell("Parents Corner",`<div class="card"><h2>Your Voice Matters</h2><p>We value the partnership between home and school. This space allows parents and guardians to share feedback, raise concerns, submit complaints, and provide suggestions that can help us better support our students.</p><p>Please select the option that best describes what you would like to communicate. Where appropriate, you may request a follow-up from a member of staff.</p><a class="external" href="https://forms.gle/ULabuhgiQypxfJ3n6" target="_self">PARENT FEEDBACK ↗</a><div style="margin-top:15px"><span class="pill">RAISE A CONCERN</span><span class="pill">SHARE A SUGGESTION</span><span class="pill">REQUEST A FOLLOW-UP</span><span class="pill">SUBMIT A COMPLAINT</span></div></div>`)}
 function gallery(){return shell("Gallery",`<div class="card"><p>Click on the button below to access the photo gallery for each class.</p><a class="external" href="https://drive.google.com/drive/folders/1MvEDMFkPHQyNJMdPZuilXjA-zkyKZstV?usp=drive_link" target="_self">ACCESS GALLERY ↗</a><p class="small">If the Google Drive folder is restricted, change its sharing setting to “Anyone with the link” to avoid a sign-in request.</p></div>`)}
-function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br><a href="tel:+17672853494">+1 (767) 285-3494</a><br><a href="tel:+17672664994">+1 (767) 266-4994</a></p><hr><h3>Form Teachers</h3><p>1-1: Ms. Paul; Ms. Augustine <span class="contact-tba">(TBA)</span></p><p>1-2: Mrs. Toussaint <span class="contact-tba">(TBA)</span></p><p>1-3: Ms. M. John Baptiste, <a href="tel:+17672850530">+1 (767) 285-0530</a></p><p>1-4: Ms. Russel <span class="contact-tba">(TBA)</span></p><p>1-5: Ms. Royer <span class="contact-tba">(TBA)</span></p></div>`)}
+function contacts(){return shell("Contacts",`<div class="card"><h2>Important Contacts</h2><p><strong>School Office</strong><br><a href="tel:+17672853494">+1 (767) 285-3494</a><br><a href="tel:+17672664994">+1 (767) 266-4994</a></p><hr><h3>Form Teachers</h3><p>1-1: Ms. Paul <span class="contact-tba">(TBA)</span><br>      Ms. Augustine</p><p>1-2: Mrs. Toussaint <span class="contact-tba">(TBA)</span></p><p>1-3: Ms. M. John Baptiste, <a href="tel:+17672850530">+1 (767) 285-0530</a></p><p>1-4: Ms. Russel <span class="contact-tba">(TBA)</span></p><p>1-5: Ms. Royer <span class="contact-tba">(TBA)</span></p></div>`)}
 
 
 document.getElementById("menuBtn").onclick=()=>{
