@@ -152,7 +152,7 @@ function teacherPage(name){
   "Form 1-5":[{name:"Ms. Royer"}]
  };
  const people=teachersByForm[form]||[];
- return shell(form+" Form Teachers",`<div class="teacher-list">${people.map(t=>`<article class="card person"><img class="teacher-avatar" src="assets/teacher-placeholder.svg" alt="" aria-hidden="true"><div class="teacher-details"><p class="eyebrow">${form}</p><h2>${t.name}</h2><p><strong>Contact number:</strong> ${t.phone?`<a href="tel:+17672850530">${t.phone}</a>`:"N/A"}</p><p><strong>Preferred contact mode:</strong> ${t.preferred||"N/A"}</p><p><strong>Subjects taught:</strong> ${t.subjects||"N/A"}</p><p><strong>Additional information:</strong> ${t.info||"N/A"}</p></div></article>`).join("")}</div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← All Form Teachers</button></div>`);
+ return shell(form+" Form Teachers",`<div class="teacher-list">${people.map(t=>`<article class="card person"><img class="teacher-avatar" src="assets/teacher-placeholder.svg" alt="" aria-hidden="true"><div class="teacher-details"><p class="eyebrow">${form}</p><h2>${t.name} ${t.status?`<span class="contact-tba">(${t.status})</span>`:""}</h2><p><strong>Contact number:</strong> ${t.phone?`<a href="tel:+17672850530">${t.phone}</a>`:"N/A"}</p><p><strong>Preferred contact mode:</strong> ${t.preferred||"N/A"}</p><p><strong>Subjects taught:</strong> ${t.subjects||"N/A"}</p><p><strong>Additional information:</strong> ${t.info||"N/A"}</p></div></article>`).join("")}</div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← All Form Teachers</button></div>`);
 }
 
 
@@ -170,7 +170,7 @@ const subjectsByClass = {
   ["Business Studies","Ms F Edwards"],
   ["Food and Nutrition","Ms J Russel"],
   ["ICT","Ms S Edwards"],
-  ["HFLE","Miss Roll"]
+  ["HFLE","Miss Rolle"]
  ],
  "1-2": [
   ["Mathematics","Ms M John Baptiste"],
@@ -207,7 +207,7 @@ const subjectsByClass = {
   ["Social Studies","Ms M Honore"],
   ["Agriculture","Ms G Paul"],
   ["Physical Education","Ms M Dennis"],
-  ["HFLE","Miss Roll"],
+  ["HFLE","Miss Rolle"],
   ["Food and Nutrition","Ms G Gordon"],
   ["ICT","Ms S Edwards"],
   ["RC","Ms P Henry"],
@@ -220,7 +220,7 @@ const subjectsByClass = {
   ["Social Studies","Ms M Honore"],
   ["Agriculture","Ms J Russel"],
   ["Physical Education","Ms Dennis"],
-  ["HFLE","Miss Roll"],
+  ["HFLE","Miss Rolle"],
   ["Food and Nutrition","Ms J Russel"],
   ["ICT","Ms S Edwards"],
   ["RC","Ms M Honore"],
