@@ -209,3 +209,11 @@ document.addEventListener("change",e=>{
  }
 });
 renderPage(location.hash.slice(1)||"home");
+
+document.addEventListener("click",e=>{
+ const tab=e.target.closest("[data-subject-class]");
+ if(tab){
+  selectedSubjectClass=tab.dataset.subjectClass;
+  renderPage("subjects");
+ }
+});
