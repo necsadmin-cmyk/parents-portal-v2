@@ -153,6 +153,7 @@ function teacherPage(name){
   "Form 1-5":[{name:"Ms. Royer"}]
  };
  const people=teachersByForm[form]||[];
+  const avatar=form==="Form 1-3"?"assets/form-teachers/form-1-3/ms-m-john-baptiste.jpg":"assets/teacher-placeholder.svg";
  return shell(form+" Form Teachers",`<div class="teacher-list">${people.map(t=>`<article class="card person"><img class="teacher-avatar" src="${avatar}" alt="" ${form==="Form 1-3"?"":"aria-hidden=\"true\""}><div class="teacher-details"><p class="eyebrow">${form}</p><h2>${t.name} ${t.status?`<span class="contact-tba">(${t.status})</span>`:""}</h2><p><strong>Contact number:</strong> ${t.phone?`<a href="tel:+17672850530">${t.phone}</a>`:"N/A"}</p><p><strong>Preferred contact mode:</strong> ${t.preferred||"N/A"}</p><p><strong>Subjects taught:</strong> ${t.subjects||"N/A"}</p><p><strong>Additional information:</strong> ${t.info||"N/A"}</p></div></article>`).join("")}</div><div class="backrow" style="margin-top:14px"><button data-page="teachers">← All Form Teachers</button></div>`);
 }
 
