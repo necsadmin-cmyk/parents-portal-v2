@@ -473,3 +473,34 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .calendar-panel{font-family:inherit}
 .calendar-toolbar,.calendar-selectors,.calendar-grid,.selected-events{position:relative}
 @media(max-width:680px){.mockup-hero{min-height:0}.mockup-hero .hero-copy{max-width:100%}.page-hero{min-height:150px;border-radius:14px}.brand-crest{width:44px;height:44px}.drive-gallery iframe{height:340px}.contact-indent{margin-left:2.5rem}}
+
+
+/* Page-by-page review refinements */
+.mockup-home-grid .mockup-icon{display:grid;place-items:center;align-content:center;justify-content:center;overflow:hidden}
+.mockup-home-grid .mockup-icon img{width:31px;height:31px;max-width:80%;max-height:80%;object-fit:contain;object-position:center;display:block;margin:auto}
+.announcements-panel{margin:24px 0 18px;padding:clamp(18px,3vw,26px);background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.announcements-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+.announcements-heading h2{margin:5px 0 0;font-size:clamp(20px,2.6vw,27px)}
+.announcement-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.announcement-item{display:flex;align-items:flex-start;gap:13px;padding:13px;border-radius:12px;background:#F7FAF8;border:1px solid #E5EEEA}
+.announcement-date{flex:0 0 94px;color:var(--green);font-size:12px;font-weight:850}
+.announcement-item strong{color:var(--navy);font-size:14px}
+.announcement-item p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.construction-banner{display:flex;align-items:center;gap:18px;padding:clamp(22px,4vw,36px);border:1px solid #E8D8A9;border-radius:18px;background:linear-gradient(120deg,#FFF8E7,#F5F8F4)}
+.construction-banner h2{margin:0 0 8px}
+.construction-banner p{margin:0;color:var(--muted);line-height:1.6}
+.resource-link-list{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+.contact-teacher-row{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}
+.contact-teacher-row:last-child{border-bottom:0}
+.contact-class{color:var(--navy);font-weight:850}
+.contact-teacher-names{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 20px}
+.contact-teacher-names em{color:var(--muted);font-size:12px;font-style:normal}
+.calendar-panel{display:grid;grid-template-columns:minmax(0,1fr) 260px;column-gap:20px;align-items:start}
+.calendar-toolbar,.calendar-selectors,.calendar-footer{grid-column:1/-1}
+.calendar-grid,.calendar-legend{grid-column:1}
+.selected-events,.calendar-hint{grid-column:2;grid-row:3/5;align-self:start}
+.selected-events{margin-top:0;min-width:0}
+.calendar-hint{margin-top:0;padding:16px;color:var(--muted);text-align:left}
+.calendar-footer{margin-top:12px}
+.subject-icon{display:inline-grid;place-items:center;flex:0 0 27px;width:27px;height:27px;margin-right:7px;border-radius:8px;background:#E7F4F1;color:var(--green);font-size:15px;font-weight:850;line-height:1}
+@media(max-width:760px){.announcement-list{grid-template-columns:1fr}.announcements-heading{align-items:flex-start;flex-direction:column}.calendar-panel{display:flex;flex-direction:column}.calendar-toolbar,.calendar-selectors,.calendar-grid,.calendar-legend,.selected-events,.calendar-hint,.calendar-footer{width:100%}.selected-events,.calendar-hint{margin-top:14px}.contact-teacher-names{grid-template-columns:1fr;gap:5px}.contact-teacher-row{grid-template-columns:48px minmax(0,1fr)}}
