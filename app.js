@@ -28,7 +28,7 @@ const pages = {
 
 const calendarData = [
 ["September 2026",[["7th","Students report to school."],["8th","International Literacy Day"],["22nd","P.T.A Meeting"],["25th","Jeans and Sneakers Day"]]],
-["October 2026",[["1st","Teacher’s Appreciation Day"],["2nd","D.A.T Teachers’ Day (No School)"],["8th","Sports Day"],["9th","Mental Health Day (Wear Green)"],["9th","I have A Right Foundation girls brunch. Girls wear pink."],["12th","Flag Day"],["15th","Sports Day"],["16th","Afro Day"],["21st","Independence Athletics Finals (Day 1)"],["23rd","Independence Athletics Finals (End"],["26th","4-H Club Expo"],["29th","Youth Rally"],["30th","Creole Day"]]],
+["October 2026",[["1st","Teacher’s Appreciation Day"],["2nd","D.A.T Teachers’ Day (No School)"],["8th","Sports Day"],["9th","Mental Health Day (Wear Green)"],["9th","I have A Right Foundation girls brunch. Girls wear pink."],["12th","Flag Day"],["15th","Sports Day"],["16th","Afro Day"],["26th","4-H Club Expo"],["29th","Youth Rally"],["30th","Creole Day"]]],
 ["November 2026",[["2nd","Mid terms (Open Day)"],["3rd","Independence Day (Public Holiday)"],["4th","National Day of Community Service (Public Holiday)"],["12th","Sports Day"],["19th","Sports Day"],["20th","Universal Children's Day"],["24th","Exam Begins (See Time Table)"]]],
 ["December 2026",[["1st","World AIDS Day"],["2nd","Special Education Day"],["4th","End of Term 1 Exams"],["8th","School X’mas Activity"],["9th","Report Card Distribution"],["11th","School Closes for X’mas Break. Reopens on January 4th 2027."]]],
 ["January 2027",[["1st","New Year’s Day"],["4th","School Reopens"]]],
