@@ -28,7 +28,7 @@ const pages = {
 
 const calendarData = [
 ["September 2026",[["7th","Students report to school."],["8th","International Literacy Day"],["22nd","P.T.A Meeting"],["25th","Jeans and Sneakers Day"]]],
-["October 2026",[["1st","Teacher’s Appreciation Day"],["2nd","D.A.T Teachers’ Day (No School)"],["8th","Sports Day"],["9th","Mental Health Day (Wear Green)"],["9th","I have A Right Foundation girls brunch. Girls wear pink."],["12th","Flag Day"],["15th","Sports Day"],["16th","Afro Day"],["21st","Independence Athletics Finals (Day 1)"],["23rd","Independence Athletics Finals (End"],["26th","4-H Club Expo"],["29th","Youth Rally"],["30th","Creole Day"]]],
+["October 2026",[["1st","Teacher’s Appreciation Day"],["2nd","D.A.T Teachers’ Day (No School)"],["8th","Sports Day"],["9th","Mental Health Day (Wear Green)"],["9th","I have A Right Foundation girls brunch. Girls wear pink."],["12th","Flag Day"],["15th","Sports Day"],["16th","Afro Day"],["26th","4-H Club Expo"],["29th","Youth Rally"],["30th","Creole Day"]]],
 ["November 2026",[["2nd","Mid terms (Open Day)"],["3rd","Independence Day (Public Holiday)"],["4th","National Day of Community Service (Public Holiday)"],["12th","Sports Day"],["19th","Sports Day"],["20th","Universal Children's Day"],["24th","Exam Begins (See Time Table)"]]],
 ["December 2026",[["1st","World AIDS Day"],["2nd","Special Education Day"],["4th","End of Term 1 Exams"],["8th","School X’mas Activity"],["9th","Report Card Distribution"],["11th","School Closes for X’mas Break. Reopens on January 4th 2027."]]],
 ["January 2027",[["1st","New Year’s Day"],["4th","School Reopens"]]],
@@ -55,7 +55,7 @@ function go(page){
 }
 function renderPage(page){
   const p=pages[page] || pages.home;
-  document.title=`${p.title} | North East Comprehensive Parent Portal`;
+  document.title=`${p.title} | NECS Parent Portal`;
   document.getElementById("app").innerHTML=p.render();
   window.scrollTo({top:0,behavior:"instant"});
   document.getElementById("app").focus({preventScroll:true});
@@ -85,7 +85,7 @@ function home(){
    ["contacts","contact.svg","Contact the School","Get in touch with us"]
  ];
  return `<section class="home-hero mockup-hero">
-   <div class="hero-copy"><span class="welcome-tag">WELCOME, PARENTS &amp; GUARDIANS</span><h1>Welcome to the<br><span>NEC Parent Portal</span></h1><p class="motto">Education is freedom. Embrace it!</p><p>Your Form 1 family hub for school information, important dates, timetables and teacher contacts.</p><button class="hero-cta" data-page="subjects">Explore Parent Resources <span aria-hidden="true">→</span></button></div>
+   <div class="hero-copy"><span class="welcome-tag">WELCOME, PARENTS &amp; GUARDIANS</span><h1>Welcome to the<br><span>NECS Parent Portal</span></h1><p class="motto">Education is freedom. Embrace it!</p><p>Your Form 1 family hub for school information, important dates, timetables and teacher contacts.</p><button class="hero-cta" data-page="subjects">Explore Parent Resources <span aria-hidden="true">→</span></button></div>
    <div class="hero-art mockup-hero-art" role="img" aria-label="Campus banner image"></div>
  </section>
  <section class="home-intro"><div><span class="eyebrow">YOUR SCHOOL, AT A GLANCE</span><h2>Everything you need, in one place</h2><div class="intro-underline"></div></div><p>Quick access to the information that helps you stay connected and prepared throughout the school year.</p></section>
