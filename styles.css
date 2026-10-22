@@ -692,3 +692,34 @@ body{font-family:Inter,"Aptos", "Segoe UI",sans-serif}
  .calendar-panel .calendar-category-legend{grid-template-columns:minmax(0,1fr) !important;gap:10px !important}
  .calendar-panel .calendar-category-legend .legend-item{font-size:.85rem !important}
 }
+
+
+/* User-requested calendar key cleanup: plain background, no colored rules behind labels */
+.calendar-panel .calendar-category-legend{
+  background:transparent !important;
+  background-color:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  outline:0 !important;
+}
+.calendar-panel .calendar-category-legend::before,
+.calendar-panel .calendar-category-legend::after,
+.calendar-panel .calendar-category-legend .legend-item::before,
+.calendar-panel .calendar-category-legend .legend-item::after{
+  content:none !important;
+  display:none !important;
+  border:0 !important;
+  background:transparent !important;
+}
+.calendar-panel .calendar-category-legend .legend-item{
+  color:#17324A !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  text-decoration:none !important;
+}
+.calendar-panel .calendar-category-legend .legend-swatch{
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
