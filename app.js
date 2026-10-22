@@ -114,30 +114,48 @@ function parseCalendarMonth(label){
  const bits=label.split(" ");
  return {month:new Date(bits[0]+" 1, "+bits[1]).getMonth(),year:Number(bits[1])};
 }
+function calendarCategory(title){
+ const t=title.toLowerCase();
+ if(/school reopens|school opens|school closes|school closing|school open|re-opens|reopens|term begins|term ends|closes for .*break|reopens on/.test(t)) return {key:"term",label:"School dates",color:"#D97706"};
+ if(/public holiday|carnival|good friday|easter monday|labour\/may day|labour day|pentecost monday|whit monday|emancipation day|independence day|community service day|new year’s day|new year's day|boxing day|christmas day/.test(t)) return {key:"holiday",label:"Public holiday",color:"#8B5CF6"};
+ if(/exam|mid terms|assessment|test/.test(t)) return {key:"exam",label:"Examinations",color:"#DC4545"};
+ if(/sports|athletic|sports day/.test(t)) return {key:"sports",label:"Sports & athletics",color:"#2563EB"};
+ if(/p\.t\.a|parent|community|meeting|open day|brunch/.test(t)) return {key:"community",label:"Parent & community",color:"#0F766E"};
+ if(/break/.test(t)) return {key:"break",label:"School break",color:"#B7791F"};
+ if(/valentine|pi day|world |international |literacy|flag day|afro day|creole day|ash wednesday|education trust|teacher’s appreciation|teachers’ day/.test(t)) return {key:"observance",label:"Observance",color:"#64748B"};
+ return {key:"school",label:"School event",color:"#087E83"};
+}
+const publicHolidayData = [
+ ["2027-01-01","New Year’s Day","holiday"],["2027-02-08","Carnival Monday","holiday"],["2027-02-09","Carnival Tuesday","holiday"],["2027-03-26","Good Friday","holiday"],["2027-03-29","Easter Monday","holiday"],["2027-05-03","Labour Day / May Day","holiday"],["2027-05-17","Whit Monday","holiday"],["2027-08-02","Emancipation Day","holiday"],["2027-11-03","Independence Day","holiday"],["2027-11-04","National Day of Community Service","holiday"],["2027-12-25","Christmas Day","holiday"],["2027-12-26","Boxing Day","holiday"],["2027-12-27","Boxing Day — observed day off","holiday"],
+ ["2028-01-01","New Year’s Day","holiday"],["2028-01-03","New Year’s Day — observed day off","holiday"],["2028-02-28","Carnival Monday","holiday"],["2028-02-29","Carnival Tuesday","holiday"],["2028-04-14","Good Friday","holiday"],["2028-04-17","Easter Monday","holiday"],["2028-05-01","Labour Day / May Day","holiday"],["2028-06-05","Whit Monday","holiday"],["2028-08-07","Emancipation Day","holiday"],["2028-11-03","Independence Day","holiday"],["2028-11-04","National Day of Community Service","holiday"],["2028-12-25","Christmas Day","holiday"],["2028-12-26","Boxing Day","holiday"],
+ ["2029-01-01","New Year’s Day","holiday"],["2029-02-12","Carnival Monday","holiday"],["2029-02-13","Carnival Tuesday","holiday"],["2029-03-30","Good Friday","holiday"],["2029-04-02","Easter Monday","holiday"],["2029-05-01","Labour Day / May Day (date to confirm)","holiday"],["2029-05-21","Whit Monday","holiday"],["2029-08-06","Emancipation Day","holiday"],["2029-11-03","Independence Day","holiday"],["2029-11-05","National Day of Community Service — observed day (confirm officially)","holiday"],["2029-12-25","Christmas Day","holiday"],["2029-12-26","Boxing Day","holiday"],
+ ["2030-01-01","New Year’s Day","holiday"],["2030-03-04","Carnival Monday","holiday"],["2030-03-05","Carnival Tuesday","holiday"],["2030-04-19","Good Friday","holiday"],["2030-04-22","Easter Monday","holiday"],["2030-05-06","Labour Day / May Day (confirm officially)","holiday"],["2030-06-10","Whit Monday","holiday"],["2030-08-05","Emancipation Day","holiday"],["2030-11-03","Independence Day","holiday"],["2030-11-04","Independence Day — observed day off (confirm officially)","holiday"],["2030-11-04","National Day of Community Service (date to confirm)","holiday"],["2030-12-25","Christmas Day","holiday"],["2030-12-26","Boxing Day","holiday"],
+ ["2031-01-01","New Year’s Day","holiday"],["2031-02-24","Carnival Monday","holiday"],["2031-02-25","Carnival Tuesday","holiday"],["2031-04-11","Good Friday","holiday"],["2031-04-14","Easter Monday","holiday"],["2031-05-05","Labour Day / May Day (date to confirm)","holiday"],["2031-06-02","Whit Monday","holiday"],["2031-08-04","Emancipation Day","holiday"],["2031-11-03","Independence Day","holiday"],["2031-11-04","National Day of Community Service","holiday"],["2031-12-25","Christmas Day","holiday"],["2031-12-26","Boxing Day","holiday"]
+].map(([date,title,category])=>({date,title,category}));
+function getCalendarEvents(year,month){
+ const events=[];
+ const existing=calendarData.find(([label])=>{const p=parseCalendarMonth(label);return p.month===month&&p.year===year;});
+ if(existing) existing[1].forEach(([day,title],i)=>events.push({day:parseInt(day,10),title,id:"existing-"+i,category:calendarCategory(title)}));
+ publicHolidayData.forEach((e,i)=>{const d=new Date(e.date+"T12:00:00");if(d.getFullYear()===year&&d.getMonth()===month&&!events.some(x=>x.day===d.getDate()&&x.title===e.title))events.push({day:d.getDate(),title:e.title,id:"holiday-"+i,category:calendarCategory(e.title)});});
+ const annual=[[1,14,"Valentine’s Day"],[2,14,"Pi Day"],[9,16,"World Food Day"]];
+ annual.forEach(([m,d,title],i)=>{if(m===month&&!events.some(x=>x.day===d&&x.title===title))events.push({day:d,title,id:"annual-"+i,category:calendarCategory(title)});});
+ if(month===2){const common=new Date(year,2,1);const mondayCount=common.getDay()===1?1:((8-common.getDay())%7)+1;const secondMonday=mondayCount+7;if(!events.some(x=>x.day===secondMonday&&/Commonwealth Day/.test(x.title)))events.push({day:secondMonday,title:"Commonwealth Day",id:"commonwealth",category:calendarCategory("Commonwealth Day")});}
+ return events.sort((a,b)=>a.day-b.day);
+}
 function calendar(){
- const {month,year}= {month:calendarView.getMonth(),year:calendarView.getFullYear()};
+ const {month,year}={month:calendarView.getMonth(),year:calendarView.getFullYear()};
  const monthName=calendarView.toLocaleString("en",{month:"long"});
- const eventMonth=calendarData.find(([label])=>{const p=parseCalendarMonth(label);return p.month===month&&p.year===year;});
- const events=(eventMonth?eventMonth[1]:[]).map((e,i)=>({day:parseInt(e[0],10),title:e[1],id:i}));const recurring=[[0,1,"New Year’s Day"],[1,14,"Valentine’s Day"],[2,14,"Pi Day"],[9,16,"World Food Day"],[11,25,"Christmas Day"]].filter(([m,d])=>m===month).map(([m,d,title],i)=>({day:d,title,id:100+i}));recurring.forEach(e=>{if(!events.some(x=>x.day===e.day&&x.title===e.title))events.push(e);});
- const firstDay=new Date(year,month,1).getDay();
- const daysInMonth=new Date(year,month+1,0).getDate();
- const cells=[];
- for(let i=0;i<firstDay;i++) cells.push('<div class="cal-day cal-blank" aria-hidden="true"></div>');
+ const events=getCalendarEvents(year,month);
+ const firstDay=new Date(year,month,1).getDay(),daysInMonth=new Date(year,month+1,0).getDate(),cells=[];
+ for(let i=0;i<firstDay;i++)cells.push('<div class="cal-day cal-blank" aria-hidden="true"></div>');
  for(let day=1;day<=daysInMonth;day++){
-   const todays=events.filter(e=>e.day===day);
-   cells.push(`<button class="cal-day ${todays.length?'has-events':''} ${selectedCalendarDay===day?'is-selected':''}" data-cal-day="${day}" aria-label="${monthName} ${day}, ${todays.length} events"><span class="cal-date">${day}</span>${todays.slice(0,2).map(e=>`<span class="cal-event-dot">${e.title}</span>`).join("")}${todays.length>2?`<span class="cal-more">+${todays.length-2} more</span>`:""}</button>`);
+  const todays=events.filter(e=>e.day===day);
+  cells.push('<button class="cal-day '+(todays.length?'has-events ':'')+(selectedCalendarDay===day?'is-selected':'')+'" data-cal-day="'+day+'" aria-label="'+monthName+' '+day+', '+todays.length+' events"><span class="cal-date">'+day+'</span>'+todays.slice(0,2).map(e=>'<span class="cal-event-dot cal-category-'+e.category.key+'" title="'+e.category.label+'">'+e.title+'</span>').join('')+(todays.length>2?'<span class="cal-more">+'+(todays.length-2)+' more</span>':'')+'</button>');
  }
  const selected=selectedCalendarDay===null?null:events.filter(e=>e.day===selectedCalendarDay);
- return shell("School Calendar",`<section class="calendar-panel">
-   <div class="calendar-toolbar"><button class="cal-nav" data-cal-shift="-1" aria-label="Previous month">‹</button><div class="calendar-heading"><h2>${monthName} ${year}</h2><p>School Year 2026–2027</p></div><button class="cal-nav" data-cal-shift="1" aria-label="Next month">›</button></div>
-   <div class="calendar-selectors"><label>Month <select id="calMonth">${Array.from({length:12},(_,i)=>`<option value="${i}" ${i===month?"selected":""}>${new Date(2026,i,1).toLocaleString("en",{month:"long"})}</option>`).join("")}</select></label><label>Year <select id="calYear">${Array.from({length:6},(_,i)=>2026+i).map(y=>`<option value="${y}" ${y===year?"selected":""}>${y}</option>`).join("")}</select></label></div>
-   <div class="calendar-grid"><div class="cal-weekday">Sun</div><div class="cal-weekday">Mon</div><div class="cal-weekday">Tue</div><div class="cal-weekday">Wed</div><div class="cal-weekday">Thu</div><div class="cal-weekday">Fri</div><div class="cal-weekday">Sat</div>${cells.join("")}</div>
-   <div class="calendar-legend"><span></span> School event <small>Tap a date to view its events.</small></div>
-   ${selected? `<section class="selected-events"><h3>${monthName} ${selectedCalendarDay}</h3>${selected.length?'<ul>'+selected.map(e=>`<li>${e.title}</li>`).join("")+'</ul>':'<p>No events listed for this date.</p>'}</section>`:'<p class="calendar-hint">Select a date with an event to see details here.</p>'}
-   <div class="calendar-footer"><button class="text-button" data-cal-today="1">Back to October 2026</button></div>
- </section>`);
+ const legend=[["holiday","Public holidays","#8B5CF6"],["sports","Sports & athletics","#2563EB"],["school","General school events","#087E83"],["term","School opening / closing","#D97706"],["exam","Examinations","#DC4545"],["community","Parent & community","#0F766E"],["observance","General observances","#64748B"],["break","School breaks","#B7791F"]];
+ return shell("School Calendar",'<section class="calendar-panel"><div class="calendar-toolbar"><button class="cal-nav" data-cal-shift="-1" aria-label="Previous month">‹</button><div class="calendar-heading"><h2>'+monthName+' '+year+'</h2><p>School Year</p></div><button class="cal-nav" data-cal-shift="1" aria-label="Next month">›</button></div><div class="calendar-selectors"><label>Month <select id="calMonth">'+Array.from({length:12},(_,i)=>'<option value="'+i+'" '+(i===month?'selected':'')+'>'+new Date(2026,i,1).toLocaleString("en",{month:"long"})+'</option>').join('')+'</select></label><label>Year <select id="calYear">'+Array.from({length:6},(_,i)=>2026+i).map(y=>'<option value="'+y+'" '+(y===year?'selected':'')+'>'+y+'</option>').join('')+'</select></label></div><div class="calendar-grid"><div class="cal-weekday">Sun</div><div class="cal-weekday">Mon</div><div class="cal-weekday">Tue</div><div class="cal-weekday">Wed</div><div class="cal-weekday">Thu</div><div class="cal-weekday">Fri</div><div class="cal-weekday">Sat</div>'+cells.join('')+'</div><div class="calendar-legend calendar-category-legend">'+legend.map(([key,label,color])=>'<span class="legend-item"><i class="legend-swatch cal-category-'+key+'" aria-hidden="true"></i>'+label+'</span>').join('')+'<small>Choose a date to view its events.</small></div>'+(selected?'<section class="selected-events"><h3>'+monthName+' '+selectedCalendarDay+'</h3>'+(selected.length?'<ul>'+selected.map(e=>'<li><span class="event-category-label cal-category-'+e.category.key+'">'+e.category.label+'</span> '+e.title+'</li>').join('')+'</ul>':'<p>No events listed for this date.</p>')+'</section>':'<p class="calendar-hint">Select a date to see event details.</p>')+'<div class="calendar-footer"><button class="text-button" data-cal-today="1">Back to October 2026</button></div></section>');
 }
-
 
 function timetables(){return shell("Time Tables",`<div class="grid">${card("termtables","TERM","Click on the form class to access the term timetable.")}${card("examtables","EXAM","Access the exam timetable section.")}</div>`)}
 function termtables(){return shell("Term Time Tables",`<div class="card"><p>Click on the buttons to access the time table.</p><div class="grid">${timetableLinks.map(([n,u])=>`<a class="external" href="${u}" target="_self">${n} ↗</a>`).join("")}</div><p class="small">If you are unable to access your timetable, please contact Ms. M. John-Baptiste for assistance.</p></div>`)}
