@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" role="img" aria-label="Literature icon">
+  <circle cx="36" cy="36" r="32" fill="#E8F6F4"/>
+  <g fill="none" stroke="#07365B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19c9-4 17-2 24 4v36c-7-6-15-8-24-4z"/><path d="M60 19c-9-4-17-2-24 4v36c7-6 15-8 24-4z"/><path d="M19 29h10M19 36h10M43 29h10M43 36h10" stroke="#087E83"/></g>
+  <circle cx="56" cy="16" r="4" fill="#E8B85C"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" role="img" aria-label="Mathematics icon">
+  <circle cx="36" cy="36" r="32" fill="#E8F6F4"/>
+  <g fill="none" stroke="#07365B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="15" width="36" height="42" rx="5"/><path d="M25 24h22M25 32h5m6 0h5m6 0h1M25 41h5m6 0h5m6 0h1M25 49h5m6 0h5m6 0h1"/><path d="M42 37l-8 13m0-13l8 13" stroke="#087E83"/></g>
+  <circle cx="56" cy="16" r="4" fill="#E8B85C"/>
+</svg>
