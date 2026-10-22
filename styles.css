@@ -504,3 +504,72 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .calendar-footer{margin-top:12px}
 .subject-icon{display:inline-grid;place-items:center;flex:0 0 27px;width:27px;height:27px;margin-right:7px;border-radius:8px;background:#E7F4F1;color:var(--green);font-size:15px;font-weight:850;line-height:1}
 @media(max-width:760px){.announcement-list{grid-template-columns:1fr}.announcements-heading{align-items:flex-start;flex-direction:column}.calendar-panel{display:flex;flex-direction:column}.calendar-toolbar,.calendar-selectors,.calendar-grid,.calendar-legend,.selected-events,.calendar-hint,.calendar-footer{width:100%}.selected-events,.calendar-hint{margin-top:14px}.contact-teacher-names{grid-template-columns:1fr;gap:5px}.contact-teacher-row{grid-template-columns:48px minmax(0,1fr)}}
+
+
+/* Calendar category colours and responsive legend */
+.cal-event-dot,
+.event-category-label,
+.legend-swatch {
+  border-left: 3px solid var(--calendar-category, #087E83);
+}
+.cal-category-holiday { --calendar-category: #8B5CF6; }
+.cal-category-sports { --calendar-category: #2563EB; }
+.cal-category-school { --calendar-category: #087E83; }
+.cal-category-term { --calendar-category: #D97706; }
+.cal-category-exam { --calendar-category: #DC4545; }
+.cal-category-community { --calendar-category: #0F766E; }
+.cal-category-observance { --calendar-category: #64748B; }
+.cal-category-break { --calendar-category: #B7791F; }
+.cal-event-dot {
+  display: block;
+  border-left-width: 3px;
+  background: color-mix(in srgb, var(--calendar-category) 12%, white);
+  color: #17324a;
+  border-radius: 3px;
+  padding: 3px 4px;
+  margin-top: 3px;
+  font-size: .68rem;
+  line-height: 1.25;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.calendar-category-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 14px 0;
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .8rem;
+  color: #29445a;
+}
+.legend-swatch {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  background: var(--calendar-category, #087E83);
+  border: 0;
+  flex: 0 0 auto;
+}
+.event-category-label {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 700;
+  padding: 3px 7px;
+  margin: 0 5px 4px 0;
+  border-radius: 4px;
+  border-left-width: 3px;
+  background: color-mix(in srgb, var(--calendar-category) 12%, white);
+  color: #17324a;
+}
+.selected-events li { margin-bottom: 10px; }
+@media (max-width: 640px) {
+  .calendar-category-legend { gap: 8px 10px; }
+  .legend-item { font-size: .72rem; }
+  .cal-event-dot { font-size: .6rem; padding: 2px 3px; }
+}
