@@ -139,6 +139,8 @@ function getCalendarEvents(year,month){
  publicHolidayData.forEach((e,i)=>{const d=new Date(e.date+"T12:00:00");if(d.getFullYear()===year&&d.getMonth()===month&&!events.some(x=>x.day===d.getDate()&&x.title===e.title))events.push({day:d.getDate(),title:e.title,id:"holiday-"+i,category:calendarCategory(e.title)});});
  const annual=[[1,14,"Valentine’s Day"],[2,14,"Pi Day"],[9,16,"World Food Day"]];
  annual.forEach(([m,d,title],i)=>{if(m===month&&!events.some(x=>x.day===d&&x.title===title))events.push({day:d,title,id:"annual-"+i,category:calendarCategory(title)});});
+ // School reopening dates follow the school-provided first-Monday rule for January and September.
+ if(month===0||month===8){let firstDay=new Date(year,month,1).getDay();let firstMonday=firstDay===1?1:((8-firstDay)%7)+1;if(!events.some(x=>x.day===firstMonday&&x.category.key==="term"))events.push({day:firstMonday,title:"School Reopens (confirm against official term dates)",id:"school-reopen-"+year+"-"+month,category:calendarCategory("School Reopens")});}
  if(month===2){const common=new Date(year,2,1);const mondayCount=common.getDay()===1?1:((8-common.getDay())%7)+1;const secondMonday=mondayCount+7;if(!events.some(x=>x.day===secondMonday&&/Commonwealth Day/.test(x.title)))events.push({day:secondMonday,title:"Commonwealth Day",id:"commonwealth",category:calendarCategory("Commonwealth Day")});}
  return events.sort((a,b)=>a.day-b.day);
 }
