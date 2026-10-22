@@ -77,7 +77,7 @@ function shell(title,body){
 const schoolCountdownDates = { examsStart: "2026-11-24", termEnds: "2026-12-11", schoolReopens: "2027-01-04" };
 function countdownDate(iso){const p=iso.split("-").map(Number);return new Date(p[0],p[1]-1,p[2]);}
 function countdownDays(target,today){return Math.max(0,Math.ceil((target-today)/86400000));}
-function countdownCard(title,target,today,icon,tone){const days=countdownDays(target,today);const dateLabel=target.toLocaleDateString("en",{month:"long",day:"numeric",year:"numeric"});const amount=days===0?"Today":days;const unit=days===0?"":days===1?"day remaining":"days remaining";const message=days===0?"Today, "+dateLabel:amount+" "+unit+" until "+dateLabel;return '<article class="countdown-card countdown-'+tone+'"><span class="countdown-icon" aria-hidden="true">'+icon+'</span><div class="countdown-copy"><span class="countdown-label">'+title+'</span><strong class="countdown-message">'+message+'</strong></div></article>';}
+function countdownCard(title,target,today,icon,tone){const days=countdownDays(target,today);const dateLabel=target.toLocaleDateString("en",{month:"long",day:"numeric",year:"numeric"});const amount=days===0?"Today":days;const unit=days===0?"":days===1?"day remaining":"days remaining";const message=days===0?'<span class="countdown-highlight">Today</span>, '+dateLabel:'<span class="countdown-highlight">'+amount+'</span> '+unit+' until '+dateLabel;return '<article class="countdown-card countdown-'+tone+'"><span class="countdown-icon" aria-hidden="true">'+icon+'</span><div class="countdown-copy"><span class="countdown-label">'+title+'</span><strong class="countdown-message">'+message+'</strong></div></article>';}
 function schoolCountdowns(){const now=new Date();now.setHours(0,0,0,0);const exams=countdownDate(schoolCountdownDates.examsStart);const end=countdownDate(schoolCountdownDates.termEnds);const reopen=countdownDate(schoolCountdownDates.schoolReopens);const ended=now>end;const cards=[];if(!ended&&now<=exams)cards.push(countdownCard("Days Until Exams Begin",exams,now,"✎","exam"));if(!ended&&now<=end)cards.push(countdownCard("Days Until the Term Ends",end,now,"▣","term"));if(ended&&now<reopen)cards.push(countdownCard("Days Until School Reopens",reopen,now,"⌂","reopen"));if(!cards.length&&now>=reopen)cards.push('<article class="countdown-card countdown-reopen"><span class="countdown-icon" aria-hidden="true">⌂</span><div class="countdown-copy"><span class="countdown-label">School Is Back</span><strong class="countdown-number">Welcome back!</strong><span class="countdown-date">Have a great term.</span></div></article>');return '<section class="school-countdowns" aria-label="School date countdowns">'+cards.join("")+'</section>';}
 
 function home(){
@@ -123,17 +123,23 @@ function parseCalendarMonth(label){
  const bits=label.split(" ");
  return {month:new Date(bits[0]+" 1, "+bits[1]).getMonth(),year:Number(bits[1])};
 }
-function calendarCategory(title){
- const t=title.toLowerCase();
- if(/school reopens|school opens|school closes|school closing|school open|re-opens|reopens|term begins|term ends|closes for .*break|reopens on/.test(t)) return {key:"term",label:"School dates",color:"#D97706"};
- if(/public holiday|creole day|carnival|good friday|easter monday|labour\/may day|labour day|pentecost monday|whit monday|emancipation day|independence day|community service day|new year’s day|new year's day|boxing day|christmas day/.test(t)) return {key:"holiday",label:"Public holiday",color:"#8B5CF6"};
- if(/exam|mid terms|assessment|test/.test(t)) return {key:"exam",label:"Examinations",color:"#DC4545"};
- if(/sports|athletic|sports day/.test(t)) return {key:"sports",label:"Sports & athletics",color:"#2563EB"};
- if(/p\.t\.a|parent|community|meeting|open day|brunch/.test(t)) return {key:"community",label:"Parent & community",color:"#0F766E"};
- if(/break/.test(t)) return {key:"break",label:"School break",color:"#B7791F"};
- if(/valentine|pi day|world |international |literacy|flag day|afro day|creole day|ash wednesday|education trust|teacher’s appreciation|teachers’ day/.test(t)) return {key:"observance",label:"Observance",color:"#64748B"};
- return {key:"school",label:"School event",color:"#087E83"};
+function calendarCategories(title){
+ const t=title.toLowerCase(),school={key:"school",label:"School event",color:"#087E83"},community={key:"community",label:"Parents & community",color:"#0F766E"},observance={key:"observance",label:"Observance",color:"#64748B"},holiday={key:"holiday",label:"Public holiday",color:"#8B5CF6"};
+ if(/world food day|flag day/.test(t)) return [observance,school];
+ if(/youth rally|sports day/.test(t)) return [school];
+ if(/report card distribution|midterms|open day/.test(t)) return [school,community];
+ if(/creole day/.test(t)) return [holiday,school];
+ if(/school reopens|school opens|school closes|school closing|school open|re-opens|reopens|term begins|term ends|closes for .*break|reopens on/.test(t)) return [{key:"term",label:"School dates",color:"#D97706"}];
+ if(/public holiday|carnival|good friday|easter monday|labour\/may day|labour day|pentecost monday|whit monday|emancipation day|independence day|community service day|new year’s day|new year's day|boxing day|christmas day/.test(t)) return [holiday];
+ if(/exam|assessment|test/.test(t)) return [{key:"exam",label:"Examinations",color:"#DC4545"}];
+ if(/sports|athletic/.test(t)) return [{key:"sports",label:"Sports & athletics",color:"#2563EB"}];
+ if(/p\.t\.a|parent|community|meeting|brunch/.test(t)) return [community];
+ if(/break/.test(t)) return [{key:"break",label:"School break",color:"#B7791F"}];
+ if(/valentine|pi day|world |international |literacy|afro day|ash wednesday|education trust|teacher’s appreciation|teachers’ day/.test(t)) return [observance];
+ return [school];
 }
+function calendarCategory(title){return calendarCategories(title)[0];}
+
 const publicHolidayData = [
  ["2027-01-01","New Year’s Day","holiday"],["2027-02-08","Carnival Monday","holiday"],["2027-02-09","Carnival Tuesday","holiday"],["2027-03-26","Good Friday","holiday"],["2027-03-29","Easter Monday","holiday"],["2027-05-03","Labour Day / May Day","holiday"],["2027-05-17","Whit Monday","holiday"],["2027-08-02","Emancipation Day","holiday"],["2027-11-03","Independence Day","holiday"],["2027-11-04","National Day of Community Service","holiday"],["2027-12-25","Christmas Day","holiday"],["2027-12-26","Boxing Day","holiday"],["2027-12-27","Boxing Day ,  observed day off","holiday"],
  ["2028-01-01","New Year’s Day","holiday"],["2028-01-03","New Year’s Day ,  observed day off","holiday"],["2028-02-28","Carnival Monday","holiday"],["2028-02-29","Carnival Tuesday","holiday"],["2028-04-14","Good Friday","holiday"],["2028-04-17","Easter Monday","holiday"],["2028-05-01","Labour Day / May Day","holiday"],["2028-06-05","Whit Monday","holiday"],["2028-08-07","Emancipation Day","holiday"],["2028-11-03","Independence Day","holiday"],["2028-11-04","National Day of Community Service","holiday"],["2028-12-25","Christmas Day","holiday"],["2028-12-26","Boxing Day","holiday"],
@@ -144,12 +150,12 @@ const publicHolidayData = [
 function getCalendarEvents(year,month){
  const events=[];
  const existing=calendarData.find(([label])=>{const p=parseCalendarMonth(label);return p.month===month&&p.year===year;});
- if(existing) existing[1].forEach(([day,title],i)=>events.push({day:parseInt(day,10),title,id:"existing-"+i,category:calendarCategory(title)}));
- publicHolidayData.forEach((e,i)=>{const d=new Date(e.date+"T12:00:00");if(d.getFullYear()===year&&d.getMonth()===month&&!events.some(x=>x.day===d.getDate()&&x.title===e.title))events.push({day:d.getDate(),title:e.title,id:"holiday-"+i,category:calendarCategory(e.title)});});
+ if(existing) existing[1].forEach(([day,title],i)=>events.push({day:parseInt(day,10),title,id:"existing-"+i,categories:calendarCategories(title),category:calendarCategory(title)}));
+ publicHolidayData.forEach((e,i)=>{const d=new Date(e.date+"T12:00:00");if(d.getFullYear()===year&&d.getMonth()===month&&!events.some(x=>x.day===d.getDate()&&x.title===e.title))events.push({day:d.getDate(),title:e.title,id:"holiday-"+i,categories:calendarCategories(e.title),category:calendarCategory(e.title)});});
  const annual=[[1,14,"Valentine’s Day"],[2,14,"Pi Day"],[9,16,"World Food Day"]];
- annual.forEach(([m,d,title],i)=>{if(m===month&&!events.some(x=>x.day===d&&x.title===title))events.push({day:d,title,id:"annual-"+i,category:calendarCategory(title)});});
+ annual.forEach(([m,d,title],i)=>{if(m===month&&!events.some(x=>x.day===d&&x.title===title))events.push({day:d,title,id:"annual-"+i,categories:calendarCategories(title),category:calendarCategory(title)});});
  // Reopening dates are added only when confirmed by the Government or Ministry of Education calendar.
- if(month===9 && year>=2027 && year<=2031){const lastDay=new Date(year,10,0).getDate();let creoleDay=lastDay;while(new Date(year,9,creoleDay).getDay()!==5)creoleDay--;if(!events.some(x=>x.day===creoleDay&&/Creole Day/.test(x.title)))events.push({day:creoleDay,title:"Creole Day (date to be confirmed)",id:"creole-day-"+year,category:calendarCategory("Creole Day")});}
+ if(month===9 && year>=2027 && year<=2031){const lastDay=new Date(year,10,0).getDate();let creoleDay=lastDay;while(new Date(year,9,creoleDay).getDay()!==5)creoleDay--;if(!events.some(x=>x.day===creoleDay&&/Creole Day/.test(x.title)))events.push({day:creoleDay,title:"Creole Day (date to be confirmed)",id:"creole-day-"+year,categories:calendarCategories("Creole Day"),category:calendarCategory("Creole Day")});}
  if(month===2){const common=new Date(year,2,1);const mondayCount=common.getDay()===1?1:((8-common.getDay())%7)+1;const secondMonday=mondayCount+7;if(!events.some(x=>x.day===secondMonday&&/Commonwealth Day/.test(x.title)))events.push({day:secondMonday,title:"Commonwealth Day",id:"commonwealth",category:calendarCategory("Commonwealth Day")});}
  return events.sort((a,b)=>a.day-b.day);
 }
@@ -161,7 +167,7 @@ function calendar(){
  for(let i=0;i<firstDay;i++)cells.push('<div class="cal-day cal-blank" aria-hidden="true"></div>');
  for(let day=1;day<=daysInMonth;day++){
   const todays=events.filter(e=>e.day===day);
-  cells.push('<button class="cal-day '+(todays.length?'has-events ':'')+(selectedCalendarDay===day?'is-selected':'')+'" data-cal-day="'+day+'" aria-label="'+monthName+' '+day+', '+todays.length+' events"><span class="cal-date">'+day+'</span>'+todays.slice(0,2).map(e=>'<span class="cal-event-dot cal-category-'+e.category.key+'" title="'+e.category.label+'">'+e.title+'</span>').join('')+(todays.length>2?'<span class="cal-more">+'+(todays.length-2)+' more</span>':'')+'</button>');
+  cells.push('<button class="cal-day '+(todays.length?'has-events ':'')+(selectedCalendarDay===day?'is-selected':'')+'" data-cal-day="'+day+'" aria-label="'+monthName+' '+day+', '+todays.length+' events"><span class="cal-date">'+day+'</span>'+todays.slice(0,2).map(e=>'<span class="cal-event-dot cal-category-'+e.category.key+'" title="'+e.categories.map(c=>c.label).join(' / ')+'">'+e.title+'</span>').join('')+(todays.length>2?'<span class="cal-more">+'+(todays.length-2)+' more</span>':'')+'</button>');
  }
  const selected=selectedCalendarDay===null?null:events.filter(e=>e.day===selectedCalendarDay);
  const legend=[["holiday","Public holidays","#8B5CF6"],["sports","Sports & athletics","#2563EB"],["school","General school events","#087E83"],["term","School opening / closing","#D97706"],["exam","Examinations","#DC4545"],["community","Parent & community","#0F766E"],["observance","General observances","#64748B"],["break","School breaks","#B7791F"]];
@@ -177,7 +183,7 @@ function teacherPage(name){
  const teachersByForm={
   "Form 1-1":[{name:"Ms. Paul"},{name:"Ms. Augustine"}],
   "Form 1-2":[{name:"Mrs. Toussaint"}],
-  "Form 1-3":[{name:"Ms. M. John Baptiste",phone:"+1 (767) 285-0530",preferred:"Text message (SMS)",subjects:"Mathematics and Information Technology",info:"N/A"}],
+  "Form 1-3":[{name:"Ms. M. John Baptiste",phone:"+1 (767) 285-0530",preferred:"Text message (SMS) / WhatsApp",subjects:"Mathematics and Information Technology",info:"N/A"}],
   "Form 1-4":[{name:"Ms. Russel"}],
   "Form 1-5":[{name:"Ms. Royer"}]
  };
