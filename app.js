@@ -258,7 +258,7 @@ const subjectsByClass = {
   ["Mental Maths","Mr Sablon"]
  ]
 };
-function subjectIcon(subject){const icons={"Mathematics":"∑","English A":"Aa","Integrated Science":"⚗","Social Studies":"🌍","French/Spanish":"文","Literature":"📚","Agriculture":"🌱","Physical Education":"⚽","Business Studies":"▤","Food and Nutrition":"🍎","ICT":"⌘","HFLE":"♡","RC":"✦","Mental Maths":"√"};return `<span class="subject-icon" aria-hidden="true">${icons[subject]||"✦"}</span>`}
+function subjectIcon(subject){const icons={"Mathematics":"mathematics.svg","English A":"english-a.svg","Integrated Science":"integrated-science.svg","Social Studies":"social-studies.svg","French/Spanish":"french.svg","Literature":"literature.svg","Agriculture":"agriculture-science.svg","Physical Education":"physical-education.svg","Business Studies":"business-studies.svg","Food and Nutrition":"food-and-nutrition.svg","ICT":"ict.svg","HFLE":"hfle.svg","RC":"religious-education.svg","Mental Maths":"mental-maths.svg"};const file=icons[subject];return file?`<span class="subject-icon" aria-hidden="true"><img src="assets/icons/${file}" alt=""></span>`:`<span class="subject-icon" aria-hidden="true">✦</span>`;}
 function subjects(){
  const rows = subjectsByClass[selectedSubjectClass] || [];
  return shell("Subjects",`<section class="subjects-panel">
