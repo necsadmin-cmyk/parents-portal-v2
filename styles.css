@@ -723,3 +723,22 @@ body{font-family:Inter,"Aptos", "Segoe UI",sans-serif}
   outline:0 !important;
   box-shadow:none !important;
 }
+
+
+/* Exam timetable tabs and responsive schedule tables */
+.exam-timetable-card{padding:clamp(16px,3vw,28px)}
+.exam-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 22px;border-bottom:1px solid #D7E2E5;padding-bottom:12px}
+.exam-tabs button{appearance:none;border:1px solid #C8D7DD;background:#F7F8F5;color:#07365B;border-radius:10px;padding:12px 18px;font:inherit;font-weight:750;cursor:pointer}
+.exam-tabs button.active,.exam-tabs button[aria-selected="true"]{background:#07365B;color:#fff;border-color:#07365B}
+.exam-timetable-card h2{color:#07365B;margin:8px 0 16px}
+.exam-table-wrap{width:100%;overflow-x:auto;border:1px solid #D8E1E5;border-radius:12px}
+.exam-table{width:100%;border-collapse:collapse;min-width:540px;background:#fff}
+.exam-table th,.exam-table td{padding:13px 14px;text-align:left;border-bottom:1px solid #E2E8EB;line-height:1.45}
+.exam-table thead th{background:#07365B;color:#fff;font-weight:800}
+.exam-table tbody th{font-weight:700;color:#17324A;background:#F7F9FA;white-space:nowrap}
+.exam-table tbody tr:last-child th,.exam-table tbody tr:last-child td{border-bottom:0}
+.exam-notice{margin-top:18px;padding:16px 18px;border-left:5px solid #D69A24;background:#FFF7E5;color:#49380F;border-radius:8px;line-height:1.5}
+.exam-notice p{margin:6px 0 0}
+.exam-report-card{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:16px;padding:14px 16px;border-radius:10px;background:#EAF4F2;color:#07365B}
+.exam-report-card span{font-weight:750}
+@media(max-width:600px){.exam-tabs{display:grid;grid-template-columns:1fr}.exam-tabs button{width:100%;text-align:center}.exam-table th,.exam-table td{padding:11px 10px;font-size:.9rem}}
