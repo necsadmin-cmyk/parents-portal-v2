@@ -176,7 +176,38 @@ function calendar(){
 
 function timetables(){return shell("Time Tables",`<div class="grid">${card("termtables","TERM","Click on the form class to access the term timetable.")}${card("examtables","EXAM","Access the exam timetable section.")}</div>`)}
 function termtables(){return shell("Term Time Tables",`<div class="card"><p>Click on the buttons to access the time table.</p><div class="grid">${timetableLinks.map(([n,u])=>`<a class="external" href="${u}" target="_self">${n} ↗</a>`).join("")}</div><p class="small">If you are unable to access your timetable, please contact Ms. M. John-Baptiste for assistance.</p></div>`)}
-function examtables(){return shell("Exam Time Tables",`<div class="card exam-under-construction"><h2>Exam Timetables Under Construction</h2><p>Exam timetable information is not yet available. This section will be updated as soon as the school releases the confirmed timetables.</p></div>`)}
+let selectedExamTab = "forms113";
+function examtables(){
+ const forms113=[
+  ["Tuesday, November 24","Social Science","F&N"],
+  ["Wednesday, November 25","French/Spanish","Business Studies"],
+  ["Thursday, November 26","English","IT"],
+  ["Friday, November 27","Integrated Science","PE"],
+  ["Monday, November 30","Math","Agriculture"],
+  ["Tuesday, December 1","French/Spanish Orals",""]
+ ];
+ const forms145=[
+  ["Tuesday, November 24","Social Science","Food & Nutrition"],
+  ["Wednesday, November 25","Students stay home","Students stay home"],
+  ["Thursday, November 26","English","IT"],
+  ["Friday, November 27","Integrated Science","PE"],
+  ["Monday, November 30","Math","Agriculture"]
+ ];
+ const table=rows=>`<div class="exam-table-wrap"><table class="exam-table"><thead><tr><th scope="col">Date</th><th scope="col">Before Break</th><th scope="col">After Break</th></tr></thead><tbody>${rows.map(([date,before,after])=>`<tr><th scope="row">${date}</th><td>${before||" "}</td><td>${after||" "}</td></tr>`).join("")}</tbody></table></div>`;
+ const is113=selectedExamTab==="forms113";
+ const notice=is113?`<div class="exam-notice"><strong>December 2-8, 2026: No school for students.</strong><p>Students do not have to report to school on December 2, 3, 4, 7 or 8.</p></div>`:`<div class="exam-notice"><strong>Wednesday, November 25, 2026: Students stay home.</strong><p><strong>December 1-8, 2026: No school for students.</strong> Students do not have to report to school during this period.</p></div>`;
+ return shell("Exam Time Tables",`<div class="card exam-timetable-card">
+  <p>Select the timetable for your child’s form class.</p>
+  <div class="exam-tabs" role="tablist" aria-label="Select exam timetable">
+   <button type="button" role="tab" aria-selected="${is113}" class="${is113?"active":""}" data-exam-tab="forms113">Forms 1-1, 1-2 &amp; 1-3</button>
+   <button type="button" role="tab" aria-selected="${!is113}" class="${!is113?"active":""}" data-exam-tab="forms145">Forms 1-4 &amp; 1-5</button>
+  </div>
+  <h2>${is113?"Form 1-1, 1-2 and 1-3":"Form 1-4 and 1-5"} Term 1 Exam Timetable</h2>
+  ${table(is113?forms113:forms145)}
+  ${notice}
+  <div class="exam-report-card"><strong>Wednesday, December 9, 2026</strong><span>Report card with parent/guardian</span></div>
+ </div>`)
+}
 function teachers(){return shell("Form Teachers",`<div class="card"><p>Meet the Form 1 teachers at North East Comprehensive. Select a class to view teacher contact details and information.</p></div><div class="grid">${["1-1","1-2","1-3","1-4","1-5"].map(n=>card(n==="1-1"?"teacher11a":"teacher"+n.replace("-",""),"FORM "+n,n==="1-1"?"Ms. Paul and Ms. Augustine":({"1-2":"Mrs. Toussaint","1-3":"Ms. M. John Baptiste","1-4":"Ms. Russel","1-5":"Ms. Royer"}[n]))).join("")}</div>`)}
 function teacherPage(name){
  const form=name.replace(" ,  More Info","");
@@ -308,6 +339,12 @@ document.addEventListener("change",e=>{
  }
 });
 renderPage(location.hash.slice(1)||"home");
+
+document.addEventListener("click",e=>{
+ const tab=e.target.closest("[data-exam-tab]");
+ if(tab){selectedExamTab=tab.dataset.examTab;renderPage("examtables");}
+});
+
 
 document.addEventListener("click",e=>{
  const tab=e.target.closest("[data-subject-class]");
